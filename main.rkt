@@ -5,6 +5,7 @@
 (require pict/code)
 (require simple-qr)
 (require ts-curric-common)
+(require net/sendurl)
 
 (require racket/runtime-path)
 (define-runtime-path images "images")
@@ -41,6 +42,10 @@
 (define SONIC         (circlify "blue" (local-avatar "sonic")))
 (define SONIC-BONUS   (circlify "red" (local-avatar "sonic")))
 
+(define (shrink i)
+  (reusable-material
+   (scale i 0.5)))
+
 (define (scan-badge num)
   (activity-instructions (++ "Quest " num ": Scan Your Badge")
                          '()
@@ -58,12 +63,15 @@
                           (instruction-folder "Desktop/SAVE_MY_WORK/"))
                          (video-qr "http://bit.ly/2CoFWPL")))
 
+(define (open-racket-video)
+  (send-url "http://bit.ly/2HV5yHn"))
+
 (define open-racket-only
   (activity-instructions "Open DrRacket"
                          '()
                          (list (instruction-open "DrRacket")
                                (instruction-goal "the blank file in DrRacket."))
-                         (video-qr "http://bit.ly/2HV5yHn")))
+                         (launcher-str "game-engine" "(open-racket-video)")))
 
 (define (open-racket action)
   (activity-instructions (cond
@@ -78,13 +86,16 @@
                                (instruction-goal "your racket file opened."))
                          (video-qr "http://bit.ly/2HV5yHn")))
 
+(define (open-file-video)
+  (send-url "http://bit.ly/2IvXVHJ"))
+
 (define open-file
   (activity-instructions "Open Your File"
                          '()
                          (list (instruction-basic "Open your SAVE_MY_WORK folder")
                                (instruction-basic "Double-click your .rkt file")
                                (instruction-goal "your file open in DrRacket."))
-                         (video-qr "http://bit.ly/2IvXVHJ")))
+                         (launcher-str "game-engine" "(open-file-video)")))
 
 (define (demo-code action version goal)
   (activity-instructions "Test the Game"
@@ -108,13 +119,16 @@
                                (instruction-goal  "your game window running."))
                          (scale-to-fit (local-bitmap imgStr) 250 250 #:mode 'preserve)))
 
+(define (runner-game-review)
+  (send-url "http://bit.ly/2OoFkiq"))
+
 (define (google-form url)
   (activity-instructions "Open the Game Review"
                          '()
                          (list (instruction-basic "Scan the card to open the Game Review.")
                                (instruction-basic "Answer the questions about the demo games.")
                                (instruction-goal "your Google Form submitted."))
-                         (code-qr url)))
+                         (launcher-str "game-engine" "(runner-game-review)")))
 
 ;(define open-piskel
 ;  (activity-instructions "Open Piskel"
@@ -140,13 +154,16 @@
                                (instruction-goal "your completed texture."))
                          (scale (local-bitmap image) 2.0)))
 
+(define (export-video)
+  (send-url "http://bit.ly/2Ark1Wv"))
+
 (define export-from-piskel
   (activity-instructions "Export the Texture"
                          '()
                          (list (instruction-basic "Export from Piskel to SAVE_MY_WORK.")
                                (instruction-basic "Make sure it ends in '.png' and name it whatever you want.")
                                (instruction-goal "your exported file."))
-                         (video-qr "http://bit.ly/2Ark1Wv")))
+                         (launcher-str "game-engine" "(export-video)")))
 
 (define (import-to-piskel sprite)
   (activity-instructions (++ "Import Your " (string-titlecase sprite))
@@ -217,6 +234,9 @@
                           (instruction-goal "your new changes running in game."))
                         (search-qr url)))
 
+(define (redesign-sprite-video)
+  (send-url "http://bit.ly/2It8CdW"))
+  
 (define (redesign-sprite url)
   (activity-instructions "Re-design Your Sprite"
                          '()
@@ -225,7 +245,7 @@
                           (instruction-basic "Insert it in your code.")
                           (instruction-basic "Scale down the image if it is too big.")
                           (instruction-goal "your new changes running in game."))
-                        (video-qr url)))
+                        (launcher-str "game-engine" "(redesign-sprite-video)")))
 
 (define (replace-sprite url)
   (activity-instructions "Replace Your Sprite"
@@ -237,6 +257,9 @@
                           (instruction-goal "your sprite in the code."))
                         (video-qr url)))
 
+(define (replace-sheet-video)
+  (send-url "http://bit.ly/2FTnKD7"))
+
 (define (replace-sheet url)
   (activity-instructions "Replace Your Sprite"
                          '()
@@ -246,7 +269,10 @@
                           (instruction-basic "Find your image and select 'Open'")
                           (instruction-basic "Change rows, columns, and row-number to 1")
                           (instruction-goal "your sprite in the code."))
-                        (video-qr url)))
+                        (launcher-str "game-engine" "(replace-sheet-video)")))
+
+(define (magic-loader-video)
+  (send-url "http://bit.ly/2Q2yKAh"))
 
 (define (load-code demo-name)
   (activity-instructions "Load the Starter Code"
@@ -256,24 +282,30 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Run the code.")
                                (instruction-goal  "The demo code running in DrRacket"))
-                         (video-qr "http://bit.ly/2Q2yKAh")))
+                         (launcher-str "game-engine" "(magic-loader-video)")))
 
 (define (load-code-more endGame imgStr)
   (activity-instructions (++ "Test Games 2 Through " endGame)
                          '()
-                         (list (instruction-basic "Click the TS Magic Loader again.")
-                               (instruction-basic (text-with-image "In the text field, type:" (codify "tsgd_style_2")))
-                               (instruction-basic "Run the code and test game.")
+                         (list (instruction-basic "Click the TS Magic Loader again. In the text field, type: ")
+                               (instruction-basic (codify "tsgd_runner_2"))
+                               (instruction-basic "Run the code.")
                                (instruction-basic (++ "Continue until demo " endGame "."))
                                (instruction-goal  "your game window running."))
                          (scale-to-fit (local-bitmap imgStr) 250 250 #:mode 'preserve)))
+
+(define (reload-video)
+  (send-url "http://bit.ly/2Q2yKAh"))
 
 (define reload-fave
   (activity-instructions "Reload Your Favorite Style"
                          '()
                          (list (instruction-basic "Reload the game with your favorite style.")
                                (instruction-goal  "your favorite game."))
-                         (video-qr "http://bit.ly/2Q2yKAh")))
+                         (launcher-str "game-engine" "(reload-video)")))
+
+(define (save-as-video)
+  (send-url "http://bit.ly/2ImsLCl"))
 
 (define save-as
   (activity-instructions "Save the File"
@@ -281,7 +313,7 @@
                          (list (instruction-basic "Click 'File' and  'Save Definitions As'")
                                (instruction-basic "Rename the file, make sure to keep the '.rkt' at the end!")
                                (instruction-goal  "your renamed and saved file."))
-                         (video-qr "http://bit.ly/2ImsLCl")))
+                         (launcher-str "game-engine" "(save-as-video)")))
 
 (define (change-position url)
   (activity-instructions "Change the Start Position"
@@ -291,7 +323,7 @@
                           (instruction-basic "Make your collectible start far away.")
                           (instruction-basic "TIP: (posn 0 0) is the top left corner.")
                           (instruction-goal "your collectible starting far away in game."))
-                        (video-qr url)))
+                        (scale-to-fit (local-bitmap "posn_helper_640.png") 300 300 #:mode 'preserve)))
 
 (define (change-player-position url)
   (activity-instructions "Change the Player Position"
@@ -313,16 +345,19 @@
                           (instruction-goal "your player starting on the center tile."))
                         (scale-to-fit (local-bitmap "tsgd_tiles.png") 300 300 #:mode 'preserve)))
 
+(define (more-items-video)
+  (send-url "https://bit.ly/2G9sIwr"))
+
 (define (add-more-collectibles url)
-  (activity-instructions "Add More Collectibles"
+  (activity-instructions "Add More Items"
                          '()
                          (list                        
                           (instruction-basic "Find the item-entity code inside start-game")
                           (instruction-basic "Select and copy it with CTRL+C.")
                           (instruction-basic "Make a new line and paste it with CTRL+V.")
-                          (instruction-basic "The position and tile will be random.")
-                          (instruction-goal "your game with multiple collectibles."))
-                        (video-qr url)))
+                          (instruction-basic "Modify the position values.")
+                          (instruction-goal "your game with multiple items."))
+                        (launcher-str "game-engine" "(more-items-video)")))
 
 (define (animate sprite)
   (activity-instructions (++ "Animate Your " (string-titlecase sprite))
@@ -1082,30 +1117,13 @@
                                (instruction-goal "your completed texture."))
                          (scale-to-fit (local-bitmap "leia-avatar.png") 250 320 #:mode 'preserve)))
 ;; COMPLETE DAYS
-#;(define day1-2dgame
-  (list
-   ;(with-award 1 (scan-badge "1"))
-   ;(with-award 0 start-folders)
-   (with-award 1 (open-racket "save"))
-   (with-award 2 (demo-code "play" "1" "your game window running."))
-   (with-award 1 (demo-code-more "17" "test_game.png"))
-   (with-award 3 (google-form "http://bit.ly/2EZkOoB"))
-   (with-award 2 (draw-sprite "spaceship.png" "Character"))
-   (with-award 0 export-from-piskel)
-   (choose "any"
-           (list            
-            (with-award 1 (load-code "v6/spaceship_game"))
-            (with-award 1 save-as)
-            (with-award 1 (insert-image "http://bit.ly/2FveHsH" "spaceship-sprite"))
-            ))
-   ))
 
 (define day1-2dgame
   (list
    (with-award 0 open-racket-only)
-   (with-award 2 (load-code "tsgd_style_1"))
-   (with-award 1 (load-code-more "4" "load_style.png"))
-   (with-award 3 (google-form "http://bit.ly/2NizLFU"))
+   (with-award 2 (load-code "tsgd_runner_1"))
+   (with-award 1 (load-code-more "4" "load_runner.png"))
+   (with-award 3 (google-form "http://bit.ly/2Hkkuxr"))
    (with-award 2 (draw-sprite-style "betty_single.png" "Character"))
    (with-award 0 export-from-piskel)
    (choose "any"
@@ -1119,7 +1137,6 @@
 ;Design your own Collectible
 (define day2-2dgame
   (list
-   ;(with-award 1 (scan-badge "5"))
    (with-award 2 (draw-sprite "collectibles.png" "Collectible"))
    (with-award 0 export-from-piskel)
    (with-award 0 open-file)
@@ -1129,14 +1146,13 @@
            (list
             (with-award 0 (import-to-piskel "Collectible"))
             (with-award 3 (redesign-sprite "http://bit.ly/2It8CdW"))
-            (with-award 1 (change-player-position "http://bit.ly/2tTaFoi"))
-            (with-award 1 (change-starting-tile))
-            ;(with-award 1 (add-more-collectibles "https://bit.ly/2G9sIwr"))
+            (with-award 1 (change-position "http://bit.ly/2tTaFoi"))
+            (with-award 1 (add-more-collectibles "https://bit.ly/2G9sIwr"))
             ))
    ))
 
 ;Animate your Collectible
-(define day3-2dgame
+(define day4-2dgame
   (list
    ;(with-award 1 (scan-badge "6"))
    (with-award 0 (import-to-piskel "Collectible")) ;1. Import Collectible
@@ -1155,21 +1171,6 @@
             ;(with-award 2 (animate-more "Background"))
             ))
    ))
-
-;Change Dialog, Add Dialog, Change NPC Mode / Customize your npc
-(define day4-2dgame
-  (list
-   (with-award 0 open-file)
-   (with-award 2 change-player-dialog)
-   (with-award 2 change-npc-dialog)
-   (with-award 2 add-new-dialog)
-   (with-award 1 (make-npc "wander"))
-   (with-award 1 (make-npc "still"))
-   (choose "any"
-           (list
-            (with-award 1 (make-npc "follow"))
-            (with-award 1 change-npc-speed)
-            (with-award 2 draw-and-add-npc)))))
 
 ;Add a Moving Bad Sprite
 (define day5-2dgame
@@ -1293,13 +1294,13 @@
 
 ;;; --- "red" = text color for Q#-#
 (define (quest1)
-  (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS)))
+  (map shrink (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))))
 
 
 (define (quest2)
-  (make-picts "red" "Q2-" day2-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS)))
+  (map shrink (make-picts "red" "Q2-" day2-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
 
-
+#|
 (define (quest3)
   (make-picts "red" "Q3-" day3-2dgame (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS)))
 
@@ -1330,22 +1331,22 @@
 
 (define (quest11)
   (make-picts "red" "Q11-" day11-2dgame (settings (bg (local-bitmap "bg-arcade.png")) YOSHI YOSHI-BONUS YOSHI-BONUS)))
-
-
+|#
 
 (provide quests)
+
+(provide quest1
+         quest2
+         open-racket-video
+         runner-game-review
+         export-video
+         replace-sheet-video
+         magic-loader-video
+         save-as-video)
+
 (define (quests)
   (list (quest1)
-        (quest2)
-        (quest3)
-        (quest4)
-        (quest5)
-        (quest6)
-        (quest7)
-        (quest8)
-        (quest9)
-        (quest10)
-        (quest11)))
+        (quest2)))
 
 
 
