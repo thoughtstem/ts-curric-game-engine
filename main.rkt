@@ -1342,7 +1342,10 @@
          export-video
          replace-sheet-video
          magic-loader-video
-         save-as-video)
+         save-as-video
+         open-file-video
+         redesign-sprite-video
+         more-items-video)
 
 (define (quests)
   (list (quest1)
