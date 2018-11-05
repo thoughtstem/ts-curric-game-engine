@@ -1,5 +1,16 @@
 #lang slideshow
 
+(provide open-racket-only
+         load-code
+         load-code-more
+         draw-sprite-style
+         google-form
+         export-from-piskel
+         reload-fave
+         save-as
+         replace-sheet
+         local-bitmap)
+
 (require pict/color)
 (require pict/shadow)
 (require pict/code)
@@ -1082,39 +1093,8 @@
                                (instruction-goal "your completed texture."))
                          (scale-to-fit (local-bitmap "leia-avatar.png") 250 320 #:mode 'preserve)))
 ;; COMPLETE DAYS
-#;(define day1-2dgame
-  (list
-   ;(with-award 1 (scan-badge "1"))
-   ;(with-award 0 start-folders)
-   (with-award 1 (open-racket "save"))
-   (with-award 2 (demo-code "play" "1" "your game window running."))
-   (with-award 1 (demo-code-more "17" "test_game.png"))
-   (with-award 3 (google-form "http://bit.ly/2EZkOoB"))
-   (with-award 2 (draw-sprite "spaceship.png" "Character"))
-   (with-award 0 export-from-piskel)
-   (choose "any"
-           (list            
-            (with-award 1 (load-code "v6/spaceship_game"))
-            (with-award 1 save-as)
-            (with-award 1 (insert-image "http://bit.ly/2FveHsH" "spaceship-sprite"))
-            ))
-   ))
 
-(define day1-2dgame
-  (list
-   (with-award 0 open-racket-only)
-   (with-award 2 (load-code "tsgd_style_1"))
-   (with-award 1 (load-code-more "4" "load_style.png"))
-   (with-award 3 (google-form "http://bit.ly/2NizLFU"))
-   (with-award 2 (draw-sprite-style "betty_single.png" "Character"))
-   (with-award 0 export-from-piskel)
-   (choose "any"
-           (list
-            (with-award 0 reload-fave)
-            (with-award 1 save-as)
-            (with-award 1 (replace-sheet "http://bit.ly/2FTnKD7"))
-            ))
-   ))
+
 
 ;Design your own Collectible
 (define day2-2dgame
@@ -1291,10 +1271,6 @@
    ))
 
 
-;;; --- "red" = text color for Q#-#
-(define (quest1)
-  (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS)))
-
 
 (define (quest2)
   (make-picts "red" "Q2-" day2-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS)))
@@ -1332,20 +1308,6 @@
   (make-picts "red" "Q11-" day11-2dgame (settings (bg (local-bitmap "bg-arcade.png")) YOSHI YOSHI-BONUS YOSHI-BONUS)))
 
 
-
-(provide quests)
-(define (quests)
-  (list quest1
-        quest2
-        quest3
-        quest4
-        quest5
-        quest6
-        quest7
-        quest8
-        quest9
-        quest10
-        quest11))
 
 
 
