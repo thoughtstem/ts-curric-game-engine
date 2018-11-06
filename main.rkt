@@ -2,6 +2,8 @@
 
 (require ts-curric-common)
 
+(require/provide-common)
+
 (define-quests
   quest1
   quest2
@@ -12,8 +14,4 @@
   quest7
   quest8
   quest9
-  quest10
-  quest11)
-
-
-
+  quest10)
