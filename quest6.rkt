@@ -21,6 +21,39 @@
                                             (top-edge)
                                             (bottom-edge))
                                     4 ))
+(define-webpage more-edges-video
+  this-curriculum
+  "https://bit.ly/2JCHI38")
+
+(define-webpage stop-left-video
+  this-curriculum
+  "https://bit.ly/2KoUseY")
+
+(define-webpage stop-edges-video
+  this-curriculum
+  "https://bit.ly/2rajRkC")
+
+(define-webpage wrap-around-video
+  this-curriculum
+  "https://bit.ly/2KstkMa")
+
+(define-webpage stop-improved-video
+  this-curriculum
+  "https://bit.ly/2ra1U5y")
+
+(define-webpage wrap-improved-video
+  this-curriculum
+  "https://bit.ly/2r9nfvh")
+
+(define-webpage random-bg-video
+  this-curriculum
+  "https://bit.ly/2I6q7nf")
+
+(define-webpage random-player-video
+  this-curriculum
+  "https://bit.ly/2HElPE3")
+
+
 
 (define add-edges
   (activity-instructions "Add More Edges"
@@ -30,7 +63,7 @@
                           (instruction-basic "AFTER (left-edge), type:")
                           (instruction-image (text-with-image "             " add-edges-code-img) 640 140 "")
                           (instruction-goal "your new code."))
-                        (video-qr "https://bit.ly/2JCHI38")))
+                        (launcher-img more-edges-video)))
 
 
 
@@ -46,7 +79,7 @@
                           (instruction-image (text-with-image "      " stop-on-left-code-img) 640 140 "")
                           (instruction-basic "Run the game.")
                           (instruction-goal "your player stopping on the left edge"))
-                        (video-qr "https://bit.ly/2KoUseY")))
+                        (launcher-img stop-left-video)))
 
 
 (define more-stop-on-edge-code-img (p:scale (p:code (on-collide "right edge"  (go-to-pos-inside 'right))
@@ -64,7 +97,7 @@
                           (instruction-image (text-with-image "      " more-stop-on-edge-code-img) 640 140 "")
                           (instruction-basic "Run the game.")
                           (instruction-goal "your player stopping on all edges"))
-                         (video-qr "https://bit.ly/2rajRkC")))
+                         (launcher-img stop-edges-video)))
 
 (define wrap-around-code-img (p:scale (p:code (on-collide "top edge"    (go-to-pos-inside 'bottom))
                                               (on-collide "bottom edge" (go-to-pos-inside 'top))
@@ -80,7 +113,7 @@
                           (instruction-image (text-with-image "      " wrap-around-code-img) 640 140 "")
                           (instruction-basic "Run the game.")
                           (instruction-goal "your player wrapping around."))
-                        (video-qr "https://bit.ly/2KstkMa")))
+                        (launcher-img wrap-around-video)))
 
 
 
@@ -94,7 +127,7 @@
                           (instruction-image (text-with-image "      " stop-on-edge-v2-code-img) 640 140 "")
                           (instruction-basic "Options are (blank), 'left, 'right, 'top, and 'bottom.")
                           (instruction-goal "your player stopping on left and right edges."))
-                        (video-qr "https://bit.ly/2ra1U5y")))
+                        (launcher-img stop-improved-video)))
 
 (define wrap-around-v2-code-img (p:scale (p:code (wrap-around 'top-bottom)) 4 ))
 
@@ -106,7 +139,7 @@
                           (instruction-image (text-with-image "      " wrap-around-v2-code-img) 640 140 "")
                           (instruction-basic "Remove right, top, and bottom edges from (start-game).")
                           (instruction-goal "your player wrapping around."))
-                        (video-qr "https://bit.ly/2r9nfvh")))
+                        (launcher-img wrap-improved-video)))
 
 
 (define random-hue-code-img (p:scale (p:code (change-img-hue (random 360) [IMAGE] )) 4 ))
@@ -120,7 +153,7 @@
                           (instruction-basic "[IMAGE] = your bg image.")
                           (instruction-basic "Works best with bright colors.")
                           (instruction-goal "a random color background"))
-                        (video-qr "https://bit.ly/2I6q7nf")))
+                        (launcher-img random-bg-video)))
 
 (define random-hue-player
   (activity-instructions "Random Hue Player"
@@ -131,7 +164,7 @@
                           (instruction-basic "[IMAGE] = your sheet/image")
                           (instruction-basic "Works best with bright colors.")
                           (instruction-goal "a random color sprite."))
-                        (video-qr "https://bit.ly/2HElPE3")))
+                        (launcher-img random-player-video)))
 
 
 ;day 7 Stop on Edge and Wrap Around

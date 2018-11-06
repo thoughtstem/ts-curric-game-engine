@@ -81,6 +81,10 @@
   this-curriculum
   "http://bit.ly/2IvXVHJ")
 
+(define-webpage magic-loader-video
+  this-curriculum
+  "https://bit.ly/2q7YAr3")
+
 
 (define open-file
   (activity-instructions "Open Your File"
@@ -140,9 +144,9 @@
                          (list (instruction-basic "Click on TS Magic Loader. In the text field, type:")
                                (instruction-basic (codify demo-name))
                                (instruction-basic "Click the Load button")
-                               (instruction-basic "The video on the left shows how to use the magic loader.")
+                               (instruction-basic "Launch the video to see how to use the Magic Loader.")
                                (instruction-goal  "The new code open in DrRacket"))
-                         (video-qr "https://bit.ly/2q7YAr3")))
+                         (launcher-img magic-loader-video)))
 
 
 

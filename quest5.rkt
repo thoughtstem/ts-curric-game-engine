@@ -15,6 +15,34 @@
 (require "./common.rkt")
 
 
+(define-webpage score-video
+  this-curriculum
+  "https://bit.ly/2vh0aw0")
+
+(define-webpage copy-paste-video2
+  this-curriculum
+  "https://bit.ly/2HqIEdA")
+
+(define-webpage modify-win-video
+  this-curriculum
+  "https://bit.ly/2HsgDlH")
+
+(define-webpage add-score-video
+  this-curriculum
+  "https://bit.ly/2HlBRCq")
+
+(define-webpage download-video
+  this-curriculum
+  "https://bit.ly/2Hpg60v")
+
+
+(define-webpage resize-video
+  this-curriculum
+  "https://bit.ly/2Jj525O")
+
+(define-webpage insert-background-video
+  this-curriculum
+  "https://bit.ly/2HmmPww")
 
 
                                                  
@@ -27,7 +55,7 @@
                           (instruction-basic "Find the (start-game) code and add (score-entity) after (game-over-screen).")
                           (instruction-basic "Test the game.")
                           (instruction-goal "your score changing in game."))
-                        (video-qr "https://bit.ly/2vh0aw0")))
+                        (launcher-img score-video)))
 
 
 
@@ -40,7 +68,7 @@
                                (instruction-basic "Go back to your project and make a new line BEFORE (define lost?)")
                                (instruction-basic "Press CTRL+V to PASTE.")
                                (instruction-goal "your new code in your project"))
-                         (video-qr "https://bit.ly/2HqIEdA")))
+                         (launcher-img copy-paste-video2)))
 
 
 (define won-code-img (p:scale (p:code (define (won? g e) 
@@ -60,7 +88,7 @@
                           ;(instruction-basic "Change 'get-entity \"###\"' to 'get-entity \"score\"'.")
                           ;(instruction-basic "Change (>= speed 10) to        (>= score 1000).")
                           (instruction-goal "a score of 1000 in game."))
-                        (video-qr "https://bit.ly/2HsgDlH")))
+                        (launcher-img modify-win-video)))
 
 
 
@@ -71,7 +99,7 @@
                                (instruction-basic "Copy/Paste the code BEFORE (define (score-entity).")
                                (instruction-basic "Add (score-bg) BEFORE (score-entity) in (start-game).")
                                (instruction-goal "your score background in game."))
-                         (video-qr "https://bit.ly/2HlBRCq")))
+                         (launcher-img add-score-video)))
 
 
 
@@ -83,7 +111,7 @@
                           (instruction-basic "Open Google Chrome and click 'CC Search'.")
                           (instruction-basic "Find a new background image and save it in SAVE_MY_WORK.")
                           (instruction-goal "your image saved in the folder."))
-                         (video-qr "https://bit.ly/2Hpg60v")))
+                         (launcher-img download-video)))
 
 
 
@@ -95,7 +123,7 @@
                           (instruction-basic "Open the downloaded image.")
                           (instruction-basic "Resize and crop the image to 640 by 480.")
                           (instruction-goal "your resized image in Pinta."))
-                         (video-qr "https://bit.ly/2Jj525O")))
+                         (launcher-img resize-video)))
 
 
 
@@ -107,7 +135,7 @@
                           (instruction-basic "In DrRacket, delete the old bg and insert your new one.")
                           (instruction-basic "Test your game.")
                           (instruction-goal "your new background in-game."))
-                         (video-qr "https://bit.ly/2HmmPww")))
+                         (launcher-img insert-background-video)))
 
 ;Add a Score Entity
 (define day5-2dgame

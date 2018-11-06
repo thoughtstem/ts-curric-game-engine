@@ -15,6 +15,22 @@
 
 (require "./common.rkt")
 
+(define-webpage copy-paste-video
+  this-curriculum
+  "https://bit.ly/2HetpC0")
+
+(define-webpage sprites-and-edge-video
+  this-curriculum
+  "https://bit.ly/2EmMmiK")
+
+(define-webpage collide-video
+  this-curriculum
+  "https://bit.ly/2HbA3sx")
+
+(define-webpage random-directions-video
+  this-curriculum
+  "https://bit.ly/2EknCrb")
+
 
 (define add-sprites-and-edge
   (activity-instructions "Add Sprites and Left-Edge"
@@ -25,7 +41,7 @@
                           (instruction-basic (codify "(bad-chest-entity)"))
                           (instruction-basic (codify "(left-edge)"))
                           (instruction-goal "your moving sprite in game"))
-                        (video-qr "https://bit.ly/2EmMmiK")))
+                        (launcher-img sprites-and-edge-video)))
 
 
 (define copy-paste-bad-sprite
@@ -33,10 +49,11 @@
                          '()
                          (list (instruction-basic "Highlight the new code.")
                                (instruction-basic "Press CTRL+C to COPY.")
-                               (instruction-basic "Go back to your project and make a new line BEFORE (define lost?)")
+                               (instruction-basic "Go back to your project and make a new line BEFORE")
+                               (instruction-basic (codify "(define (lost? g e))"))
                                (instruction-basic "Press CTRL+V to PASTE.")
                                (instruction-goal "your new code in your project"))
-                         (video-qr "https://bit.ly/2HetpC0")))
+                         (launcher-img copy-paste-video)))
 
 
 
@@ -49,7 +66,7 @@
                           (instruction-basic "Make a new line after (key-movement 3) and type: ")
                           (instruction-basic (codify "(on-collide \"bad chest\" die)"))
                           (instruction-goal "your hero dying on collision"))
-                        (video-qr "https://bit.ly/2HbA3sx")))
+                        (launcher-img collide-video)))
 
 
 
@@ -79,7 +96,7 @@
                           (instruction-basic "Make a new line after (respawn 'right) and type: ")
                           (instruction-basic (codify "(random-direction 170 190)"))
                           (instruction-goal "your sprites moving at random angles"))
-                        (video-qr "https://bit.ly/2EknCrb")))
+                        (launcher-img random-directions-video)))
 
 ;Add a Moving Bad Sprite
 (define day4-2dgame
