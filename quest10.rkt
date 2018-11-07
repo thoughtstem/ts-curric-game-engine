@@ -14,6 +14,10 @@
 
 (require "./common.rkt")
 
+(define-racket-file boss-health
+  starter-files
+  "tsgd_boss_health.rkt")
+
 
 ;(with-award 1 load-copy-laser)
 (define load-copy-laser
@@ -80,11 +84,11 @@
 (define load-copy-boss-health
   (activity-instructions "Load/Copy Boss Health Code"
                          '()
-                         (list (instruction-basic "TS Magic Load:")
-                               (instruction-image (p:scale (codify "   tsgd_boss_health") 2) 640 60 "")
-                               (instruction-basic "Copy/Paste the code BEFORE (define lost?).")
+                         (list (instruction-basic "Use the launcher to get some code to copy.")
+                               (instruction-basic "Paste it above the lost? function in your code.")
                                (instruction-goal "your new code in your project"))
-                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 320 320 #:mode 'preserve)))
+                         (launcher-img boss-health)
+                         #;(p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 320 320 #:mode 'preserve)))
 
 ;(with-award 1 add-boss-health-entity)
 (define add-boss-health-entity

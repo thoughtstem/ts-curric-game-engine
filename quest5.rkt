@@ -44,7 +44,9 @@
   this-curriculum
   "https://bit.ly/2HmmPww")
 
-
+(define-racket-file keep-score
+  starter-files
+  "tsgd_keep_score.rkt")
                                                  
 ;(with-award 2 modify-score)
 (define modify-score
@@ -141,7 +143,7 @@
 (define day5-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 0 (load-new-code "tsgd_keep_score"))
+   (with-award 0 (load-new-code keep-score))
    (with-award 1 copy-paste-keep-score)       
    (with-award 2 modify-score)                
    (with-award 2 modify-won)

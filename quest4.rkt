@@ -32,6 +32,10 @@
   "https://bit.ly/2EknCrb")
 
 
+(define-racket-file moving-sprite
+  starter-files
+  "tsgd_moving_sprite.rkt")
+
 (define add-sprites-and-edge
   (activity-instructions "Add Sprites and Left-Edge"
                          '()
@@ -102,7 +106,7 @@
 (define day4-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 0 (load-new-code "tsgd_moving_sprite"))
+   (with-award 0 (load-new-code moving-sprite))
    (with-award 1 copy-paste-bad-sprite)
    (with-award 2 add-sprites-and-edge)
    (with-award 2 add-death-on-collide)
@@ -111,10 +115,7 @@
           (list
            (with-award 2 (draw-sprite "bad_sprite.png" "Bad Sprite"))
            (with-award 1 (replace-sheet "http://bit.ly/2FTnKD7"))
-           (with-award 2 add-random-direction)
-           ))
-   ))
-
+           (with-award 2 add-random-direction)))))
 
 
 

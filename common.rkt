@@ -28,7 +28,8 @@
          MARIO-BONUS
 
          this-curriculum
-         images)
+         images
+         starter-files)
 
 (require racket/runtime-path)
 
@@ -37,7 +38,9 @@
 
 (require racket/runtime-path)
 
-(define-runtime-path images "images")
+(define-runtime-path images        "images")
+(define-runtime-path starter-files "starter-files")
+
 (define-runtime-path this-curriculum ".")
 
 (define (local-avatar s)
@@ -84,6 +87,13 @@
 (define-webpage magic-loader-video
   this-curriculum
   "https://bit.ly/2q7YAr3")
+
+
+(define-racket-file quest1-starter
+  starter-files
+  "tsgd_runner_1.rkt")
+
+
 
 
 (define open-file
@@ -141,12 +151,10 @@
 (define (load-new-code demo-name)
   (activity-instructions "Load the New Code"
                          '()
-                         (list (instruction-basic "Click on TS Magic Loader. In the text field, type:")
-                               (instruction-basic (codify demo-name))
-                               (instruction-basic "Click the Load button")
-                               (instruction-basic "Launch the video to see how to use the Magic Loader.")
+                         (list (instruction-basic "Use the launcher to get some free code")
+                               (instruction-basic "Copy paste the code into your file")
                                (instruction-goal  "The new code open in DrRacket"))
-                         (launcher-img magic-loader-video)))
+                         (launcher-img demo-name)))
 
 
 
@@ -193,7 +201,30 @@
 
 ;;; --- "red" = text color for Q#-#
 
+(require (only-in game-engine get-name))
 
+(provide evaluate-game
+         game-has-player?
+         game-has-chest?
+         game-has-bad-chest?)
 
+(define (game-has-chest? e)
+  (string=? "chest" (get-name e)))
+
+(define (game-has-bad-chest? e)
+  (string=? "bad chest" (get-name e)))
+
+(define (game-has-player? e)
+  (or
+   (string=? "player" (get-name e))
+   (string=? "hero" (get-name e))))
+
+(define (run-test t es)
+  (define results (filter t es))
+  (or results
+      #f))
+
+(define (evaluate-game tests . es)
+  (map (curryr run-test es) tests))
 
 

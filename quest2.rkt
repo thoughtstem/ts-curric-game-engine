@@ -18,6 +18,8 @@
 (define-webpage redesign-sprite-video
   this-curriculum
   "http://bit.ly/2It8CdW")
+
+
   
 (define (redesign-sprite url)
   (activity-instructions "Re-design Your Sprite"

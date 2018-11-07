@@ -33,11 +33,7 @@
                          (list (instruction-open "DrRacket")
                                (instruction-goal "the blank file in DrRacket."))
 
-                         (launcher-img open-racket-video)
-                         
-                         ;(launcher-str "game-engine" "(open-racket-video)")
-
-                         ))
+                         (launcher-img open-racket-video)))
 
 
 (define (load-code demo-name)
@@ -48,8 +44,7 @@
                                (instruction-basic "Click the Load button")
                                (instruction-basic "Run the code.")
                                (instruction-goal  "The demo code running in DrRacket"))
-                         #;(launcher-img magic-loader-video)
-                         (p:circle 50)))
+                         (launcher-img quest1-starter)))
 
 
 (define (load-code-more endGame imgStr)
