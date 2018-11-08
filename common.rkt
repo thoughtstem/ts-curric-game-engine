@@ -88,20 +88,54 @@
   this-curriculum
   "https://bit.ly/2q7YAr3")
 
+(define (red-text s)
+  (colorize
+   (scale
+    (text s)
+    2)
+   "red"))
 
-(define-racket-file quest1-starter
-  starter-files
-  "tsgd_runner_1.rkt")
-
-
-
-(define-image-file paste-the-code-above-into-your-file
+(define-image-file paste-the-code-below-into-your-file
   images
   (colorize
    (scale
-    (text "Paste the code above into your file and save.")
+    (text "Paste the code INSIDE the blue box below into your file and save.")
     2)
    "red"))
+
+(define-image-file paste-the-code-above-into-your-file
+  images
+  (vl-append 10
+             (red-text "If the code doesn't automatically load,")
+             (red-text "paste the code INSIDE the blue box above into your file and save.")))
+
+
+(define-racket-file quest1-starter-code
+  starter-files
+  "tsgd_runner_1.rkt")
+
+(define-launcher-function  quest1-starter-auto
+  (thunk
+   (define path (defined-racket-file-path quest1-starter-code))
+   (define file-name (last (explode-path path)))
+
+   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
+    
+   (make-directory* smw)
+
+   (copy-file path (build-path smw file-name) #t)
+
+   (thread
+    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
+
+(define-launcher-list  quest1-starter
+  quest1-starter-auto
+  paste-the-code-below-into-your-file
+  quest1-starter-code
+  paste-the-code-above-into-your-file)
+
+
+
 
 (define open-file
   (activity-instructions "Open Your File"

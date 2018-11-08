@@ -39,11 +39,9 @@
 (define (load-code demo-name)
   (activity-instructions "Load the Starter Code"
                          '()
-                         (list (instruction-basic "Click on TS Magic Loader. In the text field, type:")
-                               (instruction-basic (codify demo-name))
-                               (instruction-basic "Click the Load button")
-                               (instruction-basic "Run the code.")
-                               (instruction-goal  "The demo code running in DrRacket"))
+                         (list (instruction-basic "Use the launch code to open the game.")
+                               (instruction-basic "Run the game.")
+                               (instruction-goal  "The demo game running in DrRacket"))
                          (launcher-img quest1-starter)))
 
 
