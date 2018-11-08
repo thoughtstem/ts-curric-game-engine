@@ -28,7 +28,7 @@
 
 
 (define open-racket-only
-  (activity-instructions "DrRacket Basics"
+  (activity-instructions "Dr Racket Basics"
                          '()
                          (list (instruction-open "DrRacket")
                                (instruction-goal "the blank file in DrRacket."))
@@ -108,7 +108,8 @@
 
 (define day1-2dgame
   (list
-   (with-award 0 open-racket-only)
+   (with-award 1 (how-to-use-launcher-card))
+   ;(with-award 0 open-racket-only)
    (with-award 2 (load-code "tsgd_runner_1"))
    (with-award 1 (load-code-more "4" "load_runner.png"))
    (with-award 3 (google-form "http://bit.ly/2Hkkuxr"))
@@ -122,3 +123,7 @@
 
 (define (quest1)
   (map shrink (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))))
+
+
+(module+ test
+  (quest1))

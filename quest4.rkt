@@ -110,6 +110,7 @@
 ;Add a Moving Bad Sprite
 (define day4-2dgame
   (list
+   
    (with-award 0 open-file)
    (with-award 0 (load-new-code moving-sprite))
    (with-award 1 copy-paste-bad-sprite)
