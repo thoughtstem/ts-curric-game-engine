@@ -1,1 +1,0 @@
-("7.0" ("ad18ee6fd00072eee74cc4f941a682647d0c4b09" . "095142ef57caeb8ada53a9a4d0a068282b99458c") (collects #"racket" #"main.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"ts-curric-common" #"main.rkt") (collects #"ts-curric-game-engine" #"common.rkt") (collects #"ts-curric-game-engine" #"quest1.rkt"))

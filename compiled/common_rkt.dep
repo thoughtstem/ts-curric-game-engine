@@ -1,1 +1,0 @@
-("7.0" ("3583b2b4abd4679a6947b9cba708382fd9632f47" . "866c887a80f6b925f026aee189677c0cfbcfec3a") (collects #"pict" #"code.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"racket" #"runtime-path.rkt") (collects #"slideshow" #"main.rkt") (collects #"ts-curric-common" #"main.rkt"))
