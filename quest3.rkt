@@ -70,11 +70,7 @@
            (list
             (with-award 3 (animate "Character")) ;7. BONUS -- Animate the main character
             (with-award 0 export-sprite-sheet)
-            (with-award 1 import-sprite-sheet)
-            ;(with-award 2 (animate-more "Character"))
-            ;(with-award 2 (animate-more "Background"))
-            ))
-   ))
+            (with-award 1 import-sprite-sheet)))))
 
 
 

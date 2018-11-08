@@ -14,9 +14,13 @@
 
 (require "./common.rkt")
 
-(define-racket-file boss-health
+(define-racket-file boss-health-code
   starter-files
   "tsgd_boss_health.rkt")
+
+(define-launcher-list boss-health
+  boss-health-code
+  paste-the-code-above-into-your-file)
 
 
 ;(with-award 1 load-copy-laser)

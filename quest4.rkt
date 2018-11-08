@@ -31,10 +31,15 @@
   this-curriculum
   "https://bit.ly/2EknCrb")
 
-
-(define-racket-file moving-sprite
+(define-racket-file moving-sprite-code
   starter-files
   "tsgd_moving_sprite.rkt")
+
+
+(define-launcher-list moving-sprite
+  moving-sprite-code
+  paste-the-code-above-into-your-file)
+
 
 (define add-sprites-and-edge
   (activity-instructions "Add Sprites and Left-Edge"

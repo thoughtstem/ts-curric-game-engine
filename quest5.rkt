@@ -44,9 +44,14 @@
   this-curriculum
   "https://bit.ly/2HmmPww")
 
-(define-racket-file keep-score
+(define-racket-file keep-score-code
   starter-files
   "tsgd_keep_score.rkt")
+
+(define-launcher-list keep-score
+  keep-score-code
+  paste-the-code-above-into-your-file)
+
                                                  
 ;(with-award 2 modify-score)
 (define modify-score

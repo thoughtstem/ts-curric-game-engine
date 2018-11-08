@@ -95,6 +95,13 @@
 
 
 
+(define-image-file paste-the-code-above-into-your-file
+  images
+  (colorize
+   (scale
+    (text "Paste the code above into your file and save.")
+    2)
+   "red"))
 
 (define open-file
   (activity-instructions "Open Your File"
