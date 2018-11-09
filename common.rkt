@@ -2,7 +2,7 @@
 
 
 (provide load-new-code
-         replace-sheet-video
+         
          open-file-video
 
          death-by-fireball-code-img)
@@ -20,7 +20,7 @@
          local-bitmap
 
          replace-sheet
-         replace-sheet-video
+         
      
          PACMAN
          PACMAN-BONUS
@@ -35,6 +35,7 @@
 
 (require pict/code)
 (require ts-curric-common)
+(require (except-in ts-racket scale-to-fit))
 
 (require racket/runtime-path)
 
@@ -271,12 +272,37 @@
 
 
 
-(define-webpage replace-sheet-video
-  this-curriculum
-  "http://bit.ly/2FTnKD7")
 
-(define (replace-sheet url)
-  (activity-instructions "Replace Your Sprite"
+(define (replace-sprite-step-1)
+  (define full
+    (x-out (bitmap (build-path images "hero-sprite.png"))))
+  
+  (define code-img
+    (code (define player-sprite
+              (sheet->sprite #,full
+                             #:columns    3))))
+
+  (code+hints code-img
+              (list full
+                    (hint (vl-append 10
+                                       (text "Delete this."))))))
+
+(define (replace-sprite-step-2)
+  (bitmap (build-path images "insert-image-menu.png")))
+
+
+(define-image-file replace-sprite
+  images
+  (vl-append 10
+   (t "Step 1: Delete current sprite")
+   (replace-sprite-step-1)
+   (t "Step 2: Insert > Insert Image...")
+   (replace-sprite-step-2)
+   (t "Step 3: Find your sprite")))
+
+
+(define (replace-sheet thing)
+  (activity-instructions (~a "Replace Your " thing)
                          '()
                          (list
                           (instruction-basic "Find and delete the old sprite.")
@@ -284,7 +310,7 @@
                           (instruction-basic "Find your image and select 'Open'")
                           (instruction-basic "Change rows, columns, and row-number to 1")
                           (instruction-goal "your sprite in the code."))
-                        (launcher-img replace-sheet-video)))
+                        (launcher-img replace-sprite)))
 
 
 (define-webpage export-video

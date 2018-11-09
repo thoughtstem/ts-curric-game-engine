@@ -15,8 +15,6 @@
   this-curriculum
   "http://bit.ly/2HV5yHn")
 
-
-
 (define-webpage runner-game-review
   this-curriculum
   "http://bit.ly/2OoFkiq")
@@ -77,17 +75,6 @@
 
 
 
-
-
-(define reload-fave
-  (activity-instructions "Reload Your Favorite Style"
-                         '()
-                         (list (instruction-basic "Reload the game with your favorite style.")
-                               (instruction-goal  "your favorite game."))
-                         (launcher-img reload-video)))
-
-
-
 (define-webpage save-as-video
   this-curriculum
   "http://bit.ly/2ImsLCl")
@@ -96,7 +83,8 @@
 (define save-as
   (activity-instructions "Save the File"
                          '()
-                         (list (instruction-basic "Click 'File' and  'Save Definitions As'")
+                         (list (instruction-basic "Return to the code with your favorite game style.")
+                               (instruction-basic "Click 'File' and  'Save Definitions As'")
                                (instruction-basic "Rename the file, make sure to keep the '.rkt' at the end!")
                                (instruction-goal  "your renamed and saved file."))
                          (launcher-img save-as-video)))
@@ -115,9 +103,8 @@
    (with-award 0 export-from-piskel)
    (choose "any"
            (list
-            (with-award 0 reload-fave)
             (with-award 1 save-as)
-            (with-award 1 (replace-sheet "http://bit.ly/2FTnKD7"))))))
+            (with-award 1 (replace-sheet "Player"))))))
 
 (define (quest1)
   (map shrink (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))))
