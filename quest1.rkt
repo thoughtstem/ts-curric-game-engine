@@ -42,17 +42,16 @@
                          (list (instruction-basic "Use the launch code to open the game.")
                                (instruction-basic "Run the game.")
                                (instruction-goal  "The demo game running in DrRacket"))
-                         (launcher-img quest1-starter)))
+                         (launcher-img runner1-starter)))
 
 
 (define (load-code-more endGame imgStr)
   (activity-instructions (++ "Test Games 2 Through " endGame)
                          '()
-                         (list (instruction-basic "Click the TS Magic Loader again. In the text field, type: ")
-                               (instruction-basic (codify "tsgd_runner_2"))
-                               (instruction-basic "Run the code.")
-                               (instruction-basic (++ "Continue until demo " endGame "."))
-                               (instruction-goal  "your game window running."))
+                         (list (instruction-basic "Use the launch code to open the next game.")
+                               (instruction-basic "Run the game.")
+                               (instruction-basic (~a "Launch all demos through " endGame "."))
+                               (instruction-goal  (~a "demo " endGame " running.")))
                          (p:scale-to-fit (local-bitmap imgStr) 250 250 #:mode 'preserve)))
 
 
@@ -61,8 +60,8 @@
 (define (google-form url)
   (activity-instructions "Open the Game Review"
                          '()
-                         (list (instruction-basic "Scan the card to open the Game Review.")
-                               (instruction-basic "Answer the questions about the demo games.")
+                         (list (instruction-basic "Use the launch code to open the Game Review.")
+                               (instruction-basic "Review the demo games!")
                                (instruction-goal "your Google Form submitted."))
                          (launcher-img runner-game-review)))
 
@@ -70,8 +69,8 @@
   (activity-instructions (++ "Draw Your " (string-titlecase sprite))
                          '()
                          (list (instruction-open "Piskel")
-                               (instruction-basic (++ "Paint a " (string-downcase sprite) " that matches your favorite style."))
-                               (instruction-goal "your completed texture."))
+                               (instruction-basic (++ "Paint a " (string-downcase sprite) " to go into your favorite game."))
+                               (instruction-goal "your completed sprite."))
                          (p:scale (local-bitmap image) 2.0)))
 
 
@@ -89,9 +88,10 @@
 
 
 
+(define-webpage save-as-video
+  this-curriculum
+  "http://bit.ly/2ImsLCl")
 
-#;(define (save-as-video)
-  (send-url "http://bit.ly/2ImsLCl"))
 
 (define save-as
   (activity-instructions "Save the File"
@@ -99,7 +99,7 @@
                          (list (instruction-basic "Click 'File' and  'Save Definitions As'")
                                (instruction-basic "Rename the file, make sure to keep the '.rkt' at the end!")
                                (instruction-goal  "your renamed and saved file."))
-                         (launcher-img runner-game-review)))
+                         (launcher-img save-as-video)))
 
 
 

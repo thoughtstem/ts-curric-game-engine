@@ -110,13 +110,13 @@
              (red-text "paste the code INSIDE the blue box above into your file and save.")))
 
 
-(define-racket-file quest1-starter-code
+(define-racket-file runner1-starter-code
   starter-files
   "tsgd_runner_1.rkt")
 
-(define-launcher-function  quest1-starter-auto
+(define-launcher-function  runner1-starter-auto
   (thunk
-   (define path (defined-racket-file-path quest1-starter-code))
+   (define path (defined-racket-file-path runner1-starter-code))
    (define file-name (last (explode-path path)))
 
    (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
@@ -128,14 +128,86 @@
    (thread
     (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
 
-(define-launcher-list  quest1-starter
-  quest1-starter-auto
+(define-launcher-list  runner1-starter
+  runner1-starter-auto
   paste-the-code-below-into-your-file
-  quest1-starter-code
+  runner1-starter-code
   paste-the-code-above-into-your-file)
 
 
+(define-racket-file runner2-starter-code
+  starter-files
+  "tsgd_runner_2.rkt")
 
+(define-launcher-function  runner2-starter-auto
+  (thunk
+   (define path (defined-racket-file-path runner2-starter-code))
+   (define file-name (last (explode-path path)))
+
+   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
+    
+   (make-directory* smw)
+
+   (copy-file path (build-path smw file-name) #t)
+
+   (thread
+    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
+
+(define-launcher-list  runner2-starter
+  runner2-starter-auto
+  paste-the-code-below-into-your-file
+  runner2-starter-code
+  paste-the-code-above-into-your-file)
+
+
+(define-racket-file runner3-starter-code
+  starter-files
+  "tsgd_runner_3.rkt")
+
+(define-launcher-function  runner3-starter-auto
+  (thunk
+   (define path (defined-racket-file-path runner3-starter-code))
+   (define file-name (last (explode-path path)))
+
+   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
+    
+   (make-directory* smw)
+
+   (copy-file path (build-path smw file-name) #t)
+
+   (thread
+    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
+
+(define-launcher-list  runner3-starter
+  runner3-starter-auto
+  paste-the-code-below-into-your-file
+  runner3-starter-code
+  paste-the-code-above-into-your-file)
+
+
+(define-racket-file runner4-starter-code
+  starter-files
+  "tsgd_runner_4.rkt")
+
+(define-launcher-function  runner4-starter-auto
+  (thunk
+   (define path (defined-racket-file-path runner4-starter-code))
+   (define file-name (last (explode-path path)))
+
+   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
+    
+   (make-directory* smw)
+
+   (copy-file path (build-path smw file-name) #t)
+
+   (thread
+    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
+
+(define-launcher-list  runner4-starter
+  runner4-starter-auto
+  paste-the-code-below-into-your-file
+  runner4-starter-code
+  paste-the-code-above-into-your-file)
 
 (define open-file
   (activity-instructions "Open Your File"
@@ -223,9 +295,9 @@
   (activity-instructions "Export the Texture"
                          '()
                          (list (instruction-basic "Export from Piskel to SAVE_MY_WORK.")
-                               (instruction-basic "Make sure it ends in '.png' and name it whatever you want.")
+                               (instruction-basic "Make sure the file name ends in '.png'")
                                (instruction-goal "your exported file."))
-                         (launcher-img export-video)))
+                         (scale-to-fit (local-bitmap "piskel_export.png") 400 350 #:mode 'preserve)))
 
 
 
