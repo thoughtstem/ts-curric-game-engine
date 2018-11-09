@@ -90,6 +90,15 @@
                          (launcher-img save-as-video)))
 
 
+(define fix-animation
+  (activity-instructions "Fix your animation"
+                         '()
+                         (list (instruction-basic "If you run your code now, it will look weird (Try it!)")
+                               (instruction-basic "Go back to your code and change the number of columns.")
+                               (instruction-basic "Run your game again.")
+                               (instruction-goal  "your player sprite in your game."))
+                         (launcher-img change-columns)))
+
 
 
 (define day1-2dgame
@@ -104,7 +113,9 @@
    (choose "any"
            (list
             (with-award 1 save-as)
-            (with-award 1 (replace-sheet "Player"))))))
+            (with-award 1 (replace-sheet "Player"))
+            (with-award 1 fix-animation)
+            ))))
 
 (define (quest1)
   (map shrink (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))))

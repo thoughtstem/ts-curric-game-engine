@@ -20,12 +20,13 @@
          local-bitmap
 
          replace-sheet
-         
-     
+
          PACMAN
          PACMAN-BONUS
          MARIO 
          MARIO-BONUS
+         G-MUSH
+         G-MUSH-BONUS
 
          this-curriculum
          images
@@ -96,6 +97,30 @@
     2)
    "red"))
 
+(define (between-definitions-image)
+
+  (define paste-target (code-blank))
+  
+  (define code-img
+    (code (define (some-cool-thingy p)
+            ...)
+
+          #,paste-target
+
+          (define (some-other-cool-thingy)
+            ...)))
+
+  (vl-append 10
+   (red-text "Paste between any two definitions.")
+   (code+hints code-img
+              (list paste-target (hint (text "For example, paste here"))))))
+
+
+(define-image-file between-definitions-explanation
+  images
+  (between-definitions-image)
+  )
+
 (define-image-file paste-the-code-below-into-your-file
   images
   (colorize
@@ -107,8 +132,7 @@
 (define-image-file paste-the-code-above-into-your-file
   images
   (vl-append 10
-             (red-text "If the code doesn't automatically load,")
-             (red-text "paste the code INSIDE the blue box above into your file and save.")))
+             (red-text "Paste the code INSIDE the blue box above into your file and save.")))
 
 
 (define-racket-file runner1-starter-code
@@ -133,6 +157,7 @@
   runner1-starter-auto
   paste-the-code-below-into-your-file
   runner1-starter-code
+  (red-text "If the code doesn't automatically load,")
   paste-the-code-above-into-your-file)
 
 
@@ -215,8 +240,11 @@
                          '()
                          (list (instruction-basic "Open your SAVE_MY_WORK folder")
                                (instruction-basic "Double-click your .rkt file")
+                               (instruction-folder "~/Desktop/SAVE_MY_WORK")
                                (instruction-goal "your file open in DrRacket."))
-                         (launcher-img open-file-video)))
+                         (vc-append
+                          FOLDER_ICON
+                          (t "SAVE_MY_WORK"))))
 
 
 ;(define open-piskel
@@ -236,7 +264,9 @@
                          (scale (local-bitmap image) 2.0)))
 
 
-
+(define-image-file import-image
+  images
+  (local-bitmap "piskel-import.png"))
 
 
 (define (import-to-piskel sprite)
@@ -245,9 +275,9 @@
                          (list
                           (instruction-open "Piskel")
                           (instruction-basic "Click on the Import icon.")
-                          (instruction-basic (++ "Select 'Browse Images' and look for your image."))
+                          (instruction-basic (++ "Select 'Browse Images' and open your image."))
                           (instruction-goal "your image imported into piskel."))
-                        (scale (local-bitmap "piskel-import.png") 0.7)))
+                        (launcher-img import-image)))
 
 
 (define test-game
@@ -266,29 +296,44 @@
   (activity-instructions "Load the New Code"
                          '()
                          (list (instruction-basic "Use the launcher to get some free code")
-                               (instruction-basic "Copy paste the code into your file")
-                               (instruction-goal  "The new code open in DrRacket"))
+                               (instruction-goal  "The new code in DrRacket"))
                          (launcher-img demo-name)))
 
+(define (change-columns-img)
 
+
+  (define columns (code 3))
+  
+  (define code-img
+    (code (define player-sprite
+              (sheet->sprite #,(scale (random-dude) 0.25)
+                             #:columns  #,columns))))
+
+  (code+hints code-img
+              (list columns (hint (text "This should not be 3.  Experiment.")))))
+
+(define-image-file change-columns
+  images
+  (change-columns-img))
 
 
 (define (replace-sprite-step-1)
   (define full
     (x-out (bitmap (build-path images "hero-sprite.png"))))
+
+  (define columns (code 3))
   
   (define code-img
     (code (define player-sprite
               (sheet->sprite #,full
-                             #:columns    3))))
+                             #:columns  #,columns))))
 
   (code+hints code-img
-              (list full
-                    (hint (vl-append 10
-                                       (text "Delete this."))))))
+              (list full    (hint (text "Delete this.")))))
 
 (define (replace-sprite-step-2)
   (bitmap (build-path images "insert-image-menu.png")))
+
 
 
 (define-image-file replace-sprite
@@ -298,7 +343,7 @@
    (replace-sprite-step-1)
    (t "Step 2: Insert > Insert Image...")
    (replace-sprite-step-2)
-   (t "Step 3: Find your sprite")))
+   (t "Step 3: Find your sprite; Open it.")))
 
 
 (define (replace-sheet thing)
@@ -308,7 +353,6 @@
                           (instruction-basic "Find and delete the old sprite.")
                           (instruction-basic "Go to 'Insert' menu and select 'Insert Image...'")
                           (instruction-basic "Find your image and select 'Open'")
-                          (instruction-basic "Change rows, columns, and row-number to 1")
                           (instruction-goal "your sprite in the code."))
                         (launcher-img replace-sprite)))
 
