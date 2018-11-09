@@ -50,8 +50,7 @@
 (define (animate sprite)
   (activity-instructions (++ "Animate Your " (string-titlecase sprite))
                          '()
-                         (list (instruction-basic "Launch the animate video")
-                               (instruction-basic (++ "Duplicate and change frames in Piskel to animate your " (string-downcase sprite)))
+                         (list (instruction-basic (++ "Duplicate and change frames in Piskel to animate your " (string-downcase sprite)))
                                (instruction-goal (++ "your animated " (string-downcase sprite) " in Piskel.")))
                          (launcher-img animate-video)))
 

@@ -86,10 +86,10 @@
   (activity-instructions "Add Bad Item"
                          '()
                          (list
-                          (instruction-basic "Add your bad item to start-game")
-                          (instruction-basic "Use the launch code to see where")
+                          (instruction-basic "Add (bad-item-entity) to start-game")
+                          (instruction-basic "Use the launch code to see where.")
                           (instruction-basic "Run your game!")
-                          (instruction-goal "your bad item in game"))
+                          (instruction-goal "your bad item in game."))
                         (launcher-img bad-item-start-game)))
 
 
@@ -99,9 +99,9 @@
   (activity-instructions "Make the Bad Item Bad"
                          '()
                          (list
-                          (instruction-basic "Make your player die when it touches the bad item")
-                          (instruction-basic "Use the launcher to see how")
-                          (instruction-goal "your hero dying on collision"))
+                          (instruction-basic "Make your player die when it touches the bad item.")
+                          (instruction-basic "Use the launcher to see how.")
+                          (instruction-goal "your hero dying on collision."))
                         (launcher-img collide-death)))
 
 

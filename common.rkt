@@ -258,7 +258,6 @@
   (activity-instructions (++ "Draw Your " (string-titlecase sprite))
                          '()
                          (list (instruction-open "Piskel")
-                               (instruction-basic "Open Piskel.")
                                (instruction-basic (++ "Paint a " (string-downcase sprite) " for your game."))
                                (instruction-goal "your completed texture."))
                          (scale (local-bitmap image) 2.0)))
@@ -295,7 +294,7 @@
 (define (load-new-code demo-name)
   (activity-instructions "Load the New Code"
                          '()
-                         (list (instruction-basic "Use the launcher to get some free code")
+                         (list (instruction-basic "Use the launcher to get some free code!")
                                (instruction-goal  "The new code in DrRacket"))
                          (launcher-img demo-name)))
 
