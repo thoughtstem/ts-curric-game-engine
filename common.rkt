@@ -27,6 +27,8 @@
          MARIO-BONUS
          G-MUSH
          G-MUSH-BONUS
+         STAR
+         STAR-BONUS
 
          this-curriculum
          images
