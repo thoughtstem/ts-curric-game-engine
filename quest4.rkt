@@ -57,7 +57,7 @@
   (define code-img
     (p:code (start-game (instructions-entity)
                         #,target
-                        (item-entity (posn 200 200))
+                        (item-entity item-sprite (posn 200 200))
                         (player-entity)
                         (ground-entity (posn (/ WIDTH 2) (- (/ HEIGHT 2) HEIGHT)))
                         (ground-entity (posn (/ WIDTH 2) (/ HEIGHT 2)))
@@ -75,7 +75,7 @@
   (bad-item-start-game-image))
 
 
-(define-launcher-list moving-sprite
+(define-launcher-list bad-item #;moving-sprite
   paste-the-code-below-into-your-file
   moving-sprite-code
   paste-the-code-above-into-your-file
@@ -124,7 +124,7 @@
   (list
    
    (with-award 0 open-file)
-   (with-award 0 (load-new-code moving-sprite))
+   (with-award 0 (load-new-code bad-item))
    (with-award 2 add-sprites-and-edge)
    (with-award 2 add-death-on-collide)
    (with-award 1 test-and-modify-game)

@@ -307,7 +307,7 @@
   
   (define code-img
     (code (define player-sprite
-              (sheet->sprite #,(scale (random-dude) 0.25)
+              (sheet->sprite #,(code-align (scale (random-dude) 0.25))
                              #:columns  #,columns))))
 
   (code+hints code-img
