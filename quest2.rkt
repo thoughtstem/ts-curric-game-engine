@@ -14,6 +14,31 @@
 
 (require "./common.rkt")
 
+;High level goals:
+#;(
+
+   Title: Customizing collectables
+
+   Main goal: Design a new collectable
+      * Draw non-animated sprite in Piskel
+      * Export image
+      * Integrate into file
+
+   Stretch goal: Duplicate number of collectables in the game.  
+
+   Quest-complete goals:  Animate something of your choice, using less scaffolding.
+      * Remove starter code scaffold: Create an entire new animated thing (same file)
+      * Remove hint card scaffold:    Do it without quests cards
+
+
+   Mastery goal:  I have animated enough things such that I can now do it without
+   any scaffolding.
+       * Test your mastery:  Do it in under 5 minutes (not including animation time),
+       without hint cards.  You may use an existing file with existing entities.
+      
+   )
+
+
 
 (define-webpage redesign-sprite-video
   this-curriculum
@@ -65,7 +90,7 @@
    (with-award 2 (draw-sprite "collectibles.png" "Collectible"))
    (with-award 0 export-from-piskel)
    (with-award 0 open-file)
-   (with-award 3 (replace-sheet "http://bit.ly/2FTnKD7"))
+   (with-award 3 (replace-sheet "Collectable"))
    (with-award 1  test-game)
    (choose "any"
            (list

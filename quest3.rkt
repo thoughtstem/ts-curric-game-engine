@@ -14,6 +14,32 @@
 
 (require "./common.rkt")
 
+;High level goals:
+#;(
+
+   Title: Animating sprites
+
+   Main goal: Change collectable to be animated
+      * Build animation in Piskel
+      * Export to sprite sheet
+      * Integrate into file
+
+   Stretch goal: Change player to be animated
+
+   ==== No new stuff, just greater master of the above ====
+
+   Quest-complete goals:  Animate something of your choice, using less scaffolding.
+      * Remove starter code scaffold: Create an entire new animated thing (same file)
+      * Remove hint card scaffold:    Do it without quests cards
+
+
+   Mastery goal:  I have animated enough things such that I can now do it without
+   any scaffolding.
+       * Test your mastery:  Do it in under 5 minutes (not including animation time),
+       without hint cards.  You may use an existing file with existing entities.
+      
+   )
+
 
 (define-webpage animate-video
   this-curriculum
