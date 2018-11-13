@@ -179,6 +179,4 @@
 
 
 (module+ test
-  (analyze-activities day5-2dgame s)
-
-  (handle-cards (quest5)))
+  (analyze-activities day5-2dgame s))
