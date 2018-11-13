@@ -29,6 +29,8 @@
          G-MUSH-BONUS
          STAR
          STAR-BONUS
+         LINK
+         LINK-BONUS
 
          this-curriculum
          images

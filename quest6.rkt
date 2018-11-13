@@ -53,73 +53,64 @@
   this-curriculum
   "https://bit.ly/2HElPE3")
 
+(define (wrap-around-or-stop-on-edge-list)
+
+  (define BREAK (p:ghost (p:rectangle 10 10)))
+
+  (p:vl-append
+   (inset-frame
+    (p:vl-append
+     (p:text "Option 1")
+     (p:code (stop-on-edge 'top 'bottom 'left 'right))))
+   BREAK
+   (inset-frame
+    (p:vl-append
+     (p:text "Option 2")
+     (p:code (wrap-around 'top-bottom 'left-right))))
+   BREAK
+   (inset-frame
+    (p:vl-append
+     (p:text "Option 3")
+     (p:code (stop-on-edge 'top 'bottom)
+             (wrap-around 'left-right))))
+   BREAK
+   (inset-frame
+    (p:vl-append
+     (p:text "There's one more option;")
+     (p:text "can you figure it out??")))))
+
+(define-image-file wrap-or-stop
+  images
+  (wrap-around-or-stop-on-edge-list))
 
 
-(define add-edges
-  (activity-instructions "Add More Edges"
-                         '()
-                         (list                        
-                          (instruction-basic "Find (start-game ...)")
-                          (instruction-basic "AFTER (left-edge), type:")
-                          (instruction-image (text-with-image "             " add-edges-code-img) 640 140 "")
-                          (instruction-goal "your new code."))
-                        (launcher-img more-edges-video)))
+(define (add-wrap-or-stop-code)
+  (define target
+    (p:frame #:color "red"
+             (p:code (wrap-around 'top-bottom 'left-right))))
+
+  (define all-code
+    (p:code (define (player-entity)
+              (sprite->entity player-sprite
+                              #:name       "player"
+                              #:position   (posn 100 100)
+                              #:components (physical-collider)
+                                           (key-movement 10)
+                                           #,target
+                                           (on-start (go-to-pos-inside 'bottom-center))
+                              ))))
+
+  (code+hints all-code
+              (list target (hint "New code"))))
+
+(define-image-file add-wrap-or-stop
+  images
+  (add-wrap-or-stop-code))
 
 
+#;(define stop-on-edge-v2-code-img (p:scale (p:code (stop-on-edge 'left 'right)) 4 ))
 
-(define stop-on-left-code-img (p:scale (p:code (on-collide "left edge" (go-to-pos-inside 'left)))
-                                       4 ))
-
-(define stop-on-left-edge
-  (activity-instructions "Stop On Left Edge"
-                         '()
-                         (list                        
-                          (instruction-basic "Find (define (hero-entity) ...)")
-                          (instruction-basic "AFTER (key-movement ...), type:")
-                          (instruction-image (text-with-image "      " stop-on-left-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player stopping on the left edge"))
-                        (launcher-img stop-left-video)))
-
-
-(define more-stop-on-edge-code-img (p:scale (p:code (on-collide "right edge"  (go-to-pos-inside 'right))
-                                                    (on-collide "top edge"    (go-to-pos-inside 'top))
-                                                    (on-collide "bottom edge" (go-to-pos-inside 'bottom))
-                                                    )
-                                            4 ))
-
-(define more-stop-on-edge
-  (activity-instructions "More Stop On Edges"
-                         '()
-                         (list                        
-                          (instruction-basic "Add more edge stoppers for right, top, and bottom.")
-                          (instruction-basic "It should look like this:")
-                          (instruction-image (text-with-image "      " more-stop-on-edge-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player stopping on all edges"))
-                         (launcher-img stop-edges-video)))
-
-(define wrap-around-code-img (p:scale (p:code (on-collide "top edge"    (go-to-pos-inside 'bottom))
-                                              (on-collide "bottom edge" (go-to-pos-inside 'top))
-                                              )
-                                      4 ))
-
-(define wrap-around-top-bottom
-  (activity-instructions "Wrap Around"
-                         '()
-                         (list                        
-                          (instruction-basic "Modify the code to make the top edge send you to the bottom and the bottom edge to the top.")
-                          (instruction-basic "It should look like this:")
-                          (instruction-image (text-with-image "      " wrap-around-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player wrapping around."))
-                        (launcher-img wrap-around-video)))
-
-
-
-(define stop-on-edge-v2-code-img (p:scale (p:code (stop-on-edge 'left 'right)) 4 ))
-
-(define stop-on-edge-improved
+#;(define stop-on-edge-improved
   (activity-instructions "Stop On Edge Improved"
                          '()
                          (list                        
@@ -129,9 +120,9 @@
                           (instruction-goal "your player stopping on left and right edges."))
                         (launcher-img stop-improved-video)))
 
-(define wrap-around-v2-code-img (p:scale (p:code (wrap-around 'top-bottom)) 4 ))
+#;(define wrap-around-v2-code-img (p:scale (p:code (wrap-around 'top-bottom)) 4 ))
 
-(define wrap-around-improved
+#;(define wrap-around-improved
   (activity-instructions "Wrap Around Improved"
                          '()
                          (list                        
@@ -142,8 +133,49 @@
                         (launcher-img wrap-improved-video)))
 
 
+
+
+
+(define edge-options
+  (activity-instructions "Different Edge Rules"
+                         '()
+                         (list                        
+                          (instruction-basic "Use the launch code to see different Wrap Around and Stop on Edge options for your player.")
+                          (instruction-basic "Choose one to try first.")
+                          (instruction-goal "which option you chose."))
+                        (launcher-img wrap-or-stop)))
+
+(define test-edge-options
+  (activity-instructions "Test the Options"
+                         '()
+                         (list 
+                          (instruction-basic "Add the code to the player-entity.")
+                          (instruction-basic "Test the game and see how the player interacts with the edges of the screen.")
+                          (instruction-basic "Replace that option with another option and test that.")
+                          (instruction-goal "the difference between wrap-around and stop-on-edge."))
+                        (launcher-img add-wrap-or-stop)))
+
+(define choose-edge-option
+  (activity-instructions "Make the Call"
+                         '()
+                         (list                        
+                          (instruction-basic "Now that you have play-tested different options, pick which code you want for your game.")
+                          (instruction-basic "Correct the play-entity code to match your choice.")
+                          (instruction-goal "your chosen edge rules in your game."))
+                        (launcher-img wrap-or-stop)))
+
+(define choose-your-own-adventure
+  (activity-instructions "What Next?"
+                         '()
+                         (list                        
+                          (instruction-basic "Look at the next 4 cards.")
+                          (instruction-basic "Pick something you would like to try in your game.")
+                          (instruction-basic "Finshed one card? Keep exploring with another!"))
+                        (p:ghost (p:circle 1))))
+
 (define random-hue-code-img (p:scale (p:code (change-img-hue (random 360) [IMAGE] )) 4 ))
 
+;refactor this video to launched code
 (define random-hue-background
   (activity-instructions "Random Hue Background"
                          '()
@@ -155,6 +187,7 @@
                           (instruction-goal "a random color background"))
                         (launcher-img random-bg-video)))
 
+;refactor this video to launched code
 (define random-hue-player
   (activity-instructions "Random Hue Player"
                          '()
@@ -171,21 +204,25 @@
 (define day6-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 1 add-edges)
-   (with-award 1 stop-on-left-edge)       
-   (with-award 2 more-stop-on-edge)                
-   (with-award 1 wrap-around-top-bottom)
+   ;list of stop on edge
+   (with-award 0 edge-options)
+   ;test different combos on player
+   (with-award 2 test-edge-options)
+   ;make creative choice on what you want
+   (with-award 1 choose-edge-option)
    (choose "any"
           (list
-           (with-award 2 stop-on-edge-improved)
-           (with-award 2 wrap-around-improved)
+           ;choose any/all of the following cards
+           (with-award 0 choose-your-own-adventure)
+           ;scale an entity
+           ;New bg
            (with-award 1 random-hue-background)
            (with-award 1 random-hue-player) 
            ))
    ))
 
 (define (quest6)
-  (map shrink (make-picts "red" "Q6-" day6-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+  (map shrink (make-picts "red" "Q6-" day6-2dgame (settings (bg (local-bitmap "bg-arcade.png")) LINK LINK-BONUS LINK-BONUS ))))
 
 
 
