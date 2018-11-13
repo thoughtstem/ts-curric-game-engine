@@ -1,0 +1,7 @@
+(define (game-over-screen won? lost?)
+  (sprite->entity (square 1 "solid" (make-color 0 0 0 0))
+                  #:position   (posn 0 0)
+                  #:name       "ui"
+                  #:components (static)
+                               (hidden)
+                               (every-tick (maybe-end won? lost?))))

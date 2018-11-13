@@ -27,6 +27,8 @@
          MARIO-BONUS
          G-MUSH
          G-MUSH-BONUS
+         R-MUSH
+         R-MUSH-BONUS
          STAR
          STAR-BONUS
          LINK
@@ -82,8 +84,8 @@
 (define SONIC-BONUS   (circlify "red" (local-avatar "sonic")))
 
 (define (shrink i)
-  (reusable-material
-   (scale i 0.5)))
+  (quest-card-material
+   i))
 
 
 (define-webpage open-file-video
@@ -94,150 +96,22 @@
   this-curriculum
   "https://bit.ly/2q7YAr3")
 
-(define (red-text s)
-  (colorize
-   (scale
-    (text s)
-    2)
-   "red"))
-
-(define (between-definitions-image)
-
-  (define paste-target (code-blank))
-  
-  (define code-img
-    (code (define (some-cool-thingy p)
-            ...)
-
-          #,paste-target
-
-          (define (some-other-cool-thingy)
-            ...)))
-
-  (vl-append 10
-   (red-text "Paste between any two definitions.")
-   (code+hints code-img
-              (list paste-target (hint (text "For example, paste here"))))))
-
-
-(define-image-file between-definitions-explanation
-  images
-  (between-definitions-image)
-  )
-
-(define-image-file paste-the-code-below-into-your-file
-  images
-  (colorize
-   (scale
-    (text "Paste the code INSIDE the blue box below into your file and save.")
-    2)
-   "red"))
-
-(define-image-file paste-the-code-above-into-your-file
-  images
-  (vl-append 10
-             (red-text "Paste the code INSIDE the blue box above into your file and save.")))
-
-
-(define-racket-file runner1-starter-code
+(define-starter-code runner1-starter
   starter-files
   "tsgd_runner_1.rkt")
 
-(define-launcher-function  runner1-starter-auto
-  (thunk
-   (define path (defined-racket-file-path runner1-starter-code))
-   (define file-name (last (explode-path path)))
-
-   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
-    
-   (make-directory* smw)
-
-   (copy-file path (build-path smw file-name) #t)
-
-   (thread
-    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
-
-(define-launcher-list  runner1-starter
-  runner1-starter-auto
-  paste-the-code-below-into-your-file
-  runner1-starter-code
-  (red-text "If the code doesn't automatically load,")
-  paste-the-code-above-into-your-file)
-
-
-(define-racket-file runner2-starter-code
+(define-starter-code runner2-starter
   starter-files
   "tsgd_runner_2.rkt")
 
-(define-launcher-function  runner2-starter-auto
-  (thunk
-   (define path (defined-racket-file-path runner2-starter-code))
-   (define file-name (last (explode-path path)))
-
-   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
-    
-   (make-directory* smw)
-
-   (copy-file path (build-path smw file-name) #t)
-
-   (thread
-    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
-
-(define-launcher-list  runner2-starter
-  runner2-starter-auto
-  paste-the-code-below-into-your-file
-  runner2-starter-code
-  paste-the-code-above-into-your-file)
-
-
-(define-racket-file runner3-starter-code
+(define-starter-code runner3-starter
   starter-files
   "tsgd_runner_3.rkt")
 
-(define-launcher-function  runner3-starter-auto
-  (thunk
-   (define path (defined-racket-file-path runner3-starter-code))
-   (define file-name (last (explode-path path)))
-
-   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
-    
-   (make-directory* smw)
-
-   (copy-file path (build-path smw file-name) #t)
-
-   (thread
-    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
-
-(define-launcher-list  runner3-starter
-  runner3-starter-auto
-  paste-the-code-below-into-your-file
-  runner3-starter-code
-  paste-the-code-above-into-your-file)
-
-
-(define-racket-file runner4-starter-code
+(define-starter-code runner4-starter
   starter-files
   "tsgd_runner_4.rkt")
 
-(define-launcher-function  runner4-starter-auto
-  (thunk
-   (define path (defined-racket-file-path runner4-starter-code))
-   (define file-name (last (explode-path path)))
-
-   (define smw (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK"))
-    
-   (make-directory* smw)
-
-   (copy-file path (build-path smw file-name) #t)
-
-   (thread
-    (thunk (system (~a "drracket " (path->string (build-path smw file-name))))))))
-
-(define-launcher-list  runner4-starter
-  runner4-starter-auto
-  paste-the-code-below-into-your-file
-  runner4-starter-code
-  paste-the-code-above-into-your-file)
 
 (define open-file
   (activity-instructions "Open Your File"
