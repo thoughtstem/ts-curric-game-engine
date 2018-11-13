@@ -82,8 +82,8 @@
 (define SONIC-BONUS   (circlify "red" (local-avatar "sonic")))
 
 (define (shrink i)
-  (reusable-material
-   (scale i 0.5)))
+  (quest-card-material
+   i))
 
 
 (define-webpage open-file-video
@@ -93,7 +93,6 @@
 (define-webpage magic-loader-video
   this-curriculum
   "https://bit.ly/2q7YAr3")
-
 
 (define-starter-code runner1-starter
   starter-files
