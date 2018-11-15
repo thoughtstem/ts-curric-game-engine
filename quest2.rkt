@@ -1,18 +1,5 @@
 #lang racket
 
-(provide quest2)
-
-(require ts-racket)
-(require ts-curric-common)
-
-(require net/sendurl)
-
-(require (prefix-in p: pict/code))
-(require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
-
-(require "./common.rkt")
 
 ;High level goals:
 #;(
@@ -27,6 +14,8 @@
    Stretch goals:
       * Duplicate number of collectables in the game.
       * Add additional collectable
+
+  ================
 
    Quest-complete goals:  Create additional collectables, using less scaffolding.
       * Remove hint card scaffold:    Do it without quests cards
@@ -46,6 +35,19 @@
    )
 
 
+(provide quest2)
+
+(require ts-racket)
+(require ts-curric-common)
+
+(require net/sendurl)
+
+(require (prefix-in p: pict/code))
+(require (prefix-in p: pict))
+(require racket/runtime-path)
+(define-runtime-path images "images")
+
+(require "./common.rkt")
 
 (define-webpage redesign-sprite-video
   this-curriculum
@@ -225,7 +227,10 @@
             
             ))))
 
+(define s (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))
+
 (define (quest2)
-  (map shrink (make-picts "red" "Q2-" day2-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+  (map shrink (make-picts "red" "Q2-" day2-2dgame s)))
 
-
+(module+ test
+  (analyze-activities day2-2dgame s))

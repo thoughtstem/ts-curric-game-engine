@@ -1,19 +1,5 @@
 #lang racket
 
-(provide quest3)
-
-(require ts-racket)
-(require ts-curric-common)
-
-(require net/sendurl)
-
-(require (prefix-in p: pict/code))
-(require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
-
-(require "./common.rkt")
-
 ;High level goals:
 #;(
 
@@ -39,6 +25,20 @@
        without hint cards.  You may use an existing file with existing entities.
       
    )
+
+(provide quest3)
+
+(require ts-racket)
+(require ts-curric-common)
+
+(require net/sendurl)
+
+(require (prefix-in p: pict/code))
+(require (prefix-in p: pict))
+(require racket/runtime-path)
+(define-runtime-path images "images")
+
+(require "./common.rkt")
 
 
 (define-webpage animate-video
@@ -97,10 +97,11 @@
             (with-award 0 export-sprite-sheet)
             (with-award 1 (import-sprite-sheet "Player"))))))
 
-
+(define s (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS))
 
 (define (quest3)
-  (map shrink (make-picts "red" "Q3-" day3-2dgame (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS))))
+  (map shrink (make-picts "red" "Q3-" day3-2dgame s)))
 
-
+(module+ test
+  (analyze-activities day3-2dgame s))
 

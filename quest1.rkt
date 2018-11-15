@@ -1,5 +1,39 @@
 #lang racket
 
+;High level goals:
+#;(
+
+   Title: Game Starters 
+
+   Main goal: Open and run starter games, think critically about differences
+      * Load and play starters
+      * Fill out game review
+      * Draw player
+
+   Stretch goals:
+      * Rename favorite starter 
+      * Replace player with own
+
+      
+   ======
+
+   Quest-complete goals:  
+      * Suggestions (since today's concepts are not easily repeated)
+         * Investigate starter code, find x many things you can change to alter gameplay
+         * Look at documentation, learn more about functions being used
+         * Discuss with other students a more in-depth perspective on games, what liked/disliked
+         * If suspected/known that the student didn't go into much detail with
+         Game Review or player design, do again.
+
+   Mastery level 1:  TBD
+    * Test your mastery: 
+
+
+   Mastery level 2:  TBD
+       * Test your mastery:  
+      
+   )
+
 (provide quest1)
 
 (require ts-racket)
@@ -117,9 +151,11 @@
             (with-award 1 fix-animation)
             ))))
 
+(define s (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))
+
 (define (quest1)
-  (map shrink (make-picts "red" "Q1-" day1-2dgame (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))))
+  (map shrink (make-picts "red" "Q1-" day1-2dgame s)))
 
 
 (module+ test
-  (quest1))
+  (analyze-activities day1-2dgame s))
