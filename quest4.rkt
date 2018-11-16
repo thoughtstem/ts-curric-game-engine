@@ -1,5 +1,40 @@
 #lang racket
 
+;High level goals:
+#;(
+
+   Title: Bad Items
+
+   Main goal: Add a bad item to the game
+      * Load bad item definition
+      * Add into game code
+      * Edit player code to die by bad item
+      * Add multiple bad items
+
+   Stretch goals:
+      * Draw a bad item in Piskel
+      * Insert in game code
+
+      
+   ======
+
+   Quest-complete goals:  Create a bad entity, using less scaffolding.
+      * Create another bad item, using exisiting code as guide, with less scaffolding
+
+   Mastery level 1:  I have added a new, bad, item to my game enough times that I can
+       do it without the quest cards.
+    * Test your mastery:  Do it in under 5 minutes without hint cards.
+    You may use an existing file as long as it does not have a score keeping entity already.
+
+
+   Mastery level 2:  I understand the functions I'm using, and their documented meanings,
+   well enough to be able to add and customize a new bad item.
+       * Test your mastery:  Using only the documentation, add bad items
+       to a game that doesn't have them.
+      
+   )
+
+
 
 (provide quest4)
 
@@ -56,9 +91,8 @@
                             (p:text "Experiment with the numbers in ")
                             (p:code (posn 0 0))))))))
 
-(define-image-file bad-item-start-game
-  images
-  (bad-item-start-game-image))
+(define-launcher-function bad-item-start-game
+  bad-item-start-game-image)
 
 
 (define-launcher-list bad-item 

@@ -1,18 +1,5 @@
 #lang racket
 
-(provide quest2)
-
-(require ts-racket)
-(require ts-curric-common)
-
-(require net/sendurl)
-
-(require (prefix-in p: pict/code))
-(require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
-
-(require "./common.rkt")
 
 ;High level goals:
 #;(
@@ -27,6 +14,8 @@
    Stretch goals:
       * Duplicate number of collectables in the game.
       * Add additional collectable
+
+  ================
 
    Quest-complete goals:  Create additional collectables, using less scaffolding.
       * Remove hint card scaffold:    Do it without quests cards
@@ -46,6 +35,19 @@
    )
 
 
+(provide quest2)
+
+(require ts-racket)
+(require ts-curric-common)
+
+(require net/sendurl)
+
+(require (prefix-in p: pict/code))
+(require (prefix-in p: pict))
+(require racket/runtime-path)
+(define-runtime-path images "images")
+
+(require "./common.rkt")
 
 (define-webpage redesign-sprite-video
   this-curriculum
@@ -60,7 +62,7 @@
       (item-entity item-sprite (posn 250 100))))
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
                       (add-to-start-game new-code)))
 
   (code+hints main
@@ -82,7 +84,7 @@
       (item-entity new-item-sprite (posn 250 100)))))
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
                       (add-to-start-game new-code)))
   
   (code+hints main
@@ -99,11 +101,11 @@
 
 (define (copy-item-definition-code)
   (define-values (existing-def existing-def-hints)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
                       (find-defined-constant  item-sprite-definition)))
   
   (define-values (copied-def copied-def-hints)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
                       (change-defined-constant  item-sprite-definition
                                                 'item-sprite 'new-item-sprite)))
 

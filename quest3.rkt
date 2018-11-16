@@ -1,19 +1,5 @@
 #lang racket
 
-(provide quest3)
-
-(require ts-racket)
-(require ts-curric-common)
-
-(require net/sendurl)
-
-(require (prefix-in p: pict/code))
-(require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
-
-(require "./common.rkt")
-
 ;High level goals:
 #;(
 
@@ -40,6 +26,20 @@
       
    )
 
+(provide quest3)
+
+(require ts-racket)
+(require ts-curric-common)
+
+(require net/sendurl)
+
+(require (prefix-in p: pict/code))
+(require (prefix-in p: pict))
+(require racket/runtime-path)
+(define-runtime-path images "images")
+
+(require "./common.rkt")
+
 
 (define-webpage animate-video
   this-curriculum
@@ -49,14 +49,10 @@
   this-curriculum
   "http://bit.ly/2HSkJQN")
 
-(define-webpage import-sprite-video
-  this-curriculum
-  "http://bit.ly/2G35zr6")
 
 
-
-(define (import-sprite-sheet thing)
-  (activity-instructions (~a "Import Your " thing)
+(define (insert-sprite-sheet thing replace-sprite)
+  (activity-instructions (~a "Insert Your " thing)
                          '()
                          (list (instruction-basic "Find the sprite you want to replace.")
                                (instruction-basic "Delete the image and insert your new Sprite Sheet.")
@@ -85,22 +81,25 @@
 (define day3-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 0 (import-to-piskel "Collectible")) ;1. Import Collectible
-   (with-award 3 (animate "Collectible")) ;2. Duplicate and Edit Collectible -- change color/bounce/sparkle  (Video)
+   (with-award 0 (import-to-piskel "Item")) ;1. Import Collectible
+   (with-award 3 (animate "Item")) ;2. Duplicate and Edit Collectible -- change color/bounce/sparkle  (Video)
    (with-award 1 export-sprite-sheet) ;3. Export a Sprite Sheet (set rows and columns)  (Video)
-   (with-award 1 (import-sprite-sheet "Collectible")) ;5. Insert Sprite Sheet - Change rows and columns to match sprite sheet (Video)
+   (with-award 1 (insert-sprite-sheet "Item" replace-item-sprite)) ;5. Insert Sprite Sheet - Change rows and columns to match sprite sheet (Video)
    (with-award 1  test-game)
    ;(with-award 1 redesign-sprite-sheet)
    (choose "any"
            (list
             (with-award 3 (animate "Player")) ;7. BONUS -- Animate the main character
             (with-award 0 export-sprite-sheet)
-            (with-award 1 (import-sprite-sheet "Player"))))))
+            (with-award 1 (insert-sprite-sheet "Player" replace-player-sprite))))))
 
-
+(define s (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS))
 
 (define (quest3)
-  (map shrink (make-picts "red" "Q3-" day3-2dgame (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS))))
+  (map shrink (make-picts "red" "Q3-" day3-2dgame s)))
+
+(module+ test
+  (analyze-activities day3-2dgame s))
 
 
 

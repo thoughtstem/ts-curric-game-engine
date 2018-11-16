@@ -48,6 +48,7 @@
 
 (require racket/runtime-path)
 (require syntax/parse)
+(require (prefix-in h: 2htdp/image))
 
 (require pict/code)
 (require ts-curric-common)
@@ -203,36 +204,41 @@
   (change-columns-img))
 
 
-(define (replace-sprite-step-1)
-  (define full
-    (x-out (bitmap (build-path images "hero-sprite.png"))))
+(define-syntax-rule (replace-sprite-step-1 def)
+  (let-values ([(main hint-targets)
+                (try-smw-and-then "tsgd_runner_1.rkt"
+                                  (change-sprite-for-defined-constant def))])
 
-  (define columns (code 3))
-  
-  (define code-img
-    (code (define player-sprite
-              (sheet->sprite #,full
-                             #:columns  #,columns))))
-
-  (code+hints code-img
-              (list full    (hint (text "Delete this.")))))
+    (code+hints main
+                (list (first hint-targets) (hint (text "Delete this."))))))
 
 (define (replace-sprite-step-2)
   (bitmap (build-path images "insert-image-menu.png")))
 
 
 
-(define-image-file replace-sprite
-  images
-  (vl-append 10
-   (t "Step 1: Delete current sprite")
-   (replace-sprite-step-1)
-   (t "Step 2: Insert > Insert Image...")
-   (replace-sprite-step-2)
-   (t "Step 3: Find your sprite; Open it.")))
+(define-launcher-function replace-player-sprite
+  (thunk
+   (vl-append 10
+              (t "Step 1: Delete current sprite")
+              (replace-sprite-step-1 player-sprite-definition)
+              (t "Step 2: Insert > Insert Image...")
+              (replace-sprite-step-2)
+              (t "Step 3: Find your sprite; Open it."))))
+
+(define-launcher-function replace-item-sprite
+  (thunk
+   (vl-append 10
+              (t "Step 1: Delete current sprite")
+              (replace-sprite-step-1 item-sprite-definition)
+              (t "Step 2: Insert > Insert Image...")
+              (replace-sprite-step-2)
+              (t "Step 3: Find your sprite; Open it."))))
 
 
-(define (replace-sheet thing)
+
+
+(define (replace-sheet thing l)
   (activity-instructions (~a "Replace Your " thing)
                          '()
                          (list
@@ -240,7 +246,7 @@
                           (instruction-basic "Go to 'Insert' menu and select 'Insert Image...'")
                           (instruction-basic "Find your image and select 'Open'")
                           (instruction-goal "your sprite in the code."))
-                        (launcher-img replace-sprite)))
+                        (launcher-img l)))
 
 
 (define-webpage export-video
@@ -294,7 +300,10 @@
    (define item-sprite
      expr)))
 
-
+(define-syntax-class player-sprite-definition #:datum-literals (define player-sprite)
+  (pattern
+   (define player-sprite
+     expr)))
 
 
 
@@ -337,6 +346,7 @@
   (typeset-with-targets extracted-snippet-transformed
                           (list 'SNIPE
                                 (replace-with thing))))
+
 
 
 
@@ -384,6 +394,16 @@
 
 
     (typeset-with-targets extracted-snippet)))
+
+
+(define-syntax-rule (change-sprite-for-defined-constant def)
+ (let [(extracted-snippet
+         (extract-from-file (current-file) ;Here's where we could get the users file??
+                            def))]
+
+    (typeset-with-targets extracted-snippet
+                          (list h:image? delete-this))))
+
 
 
 
