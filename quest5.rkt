@@ -74,7 +74,7 @@
 (define (start-game-score-code)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest4_complete.rkt"
                       (add-to-start-game
                        '(score-entity))))
 
@@ -89,7 +89,7 @@
 (define (start-game:game-over-code)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest4_complete.rkt"
                       (add-to-start-game
                        '(game-over-screen))))
 

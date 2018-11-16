@@ -6,8 +6,14 @@
          "../main.rkt")
 
 
-(check-equal? ((listof (or/c pict?
-                             material?)) (quest1))
-               #t
-               "Quest 1 must return a list of picts/materials")
+(define (test-quest q)
+                    (check-equal? ((listof (or/c pict?
+                                                 material?)) (q))
+                                  #t
+                                  "A quest must return a list of picts/materials"))
+
+(map test-quest
+     (quests))
+
+
 

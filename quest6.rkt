@@ -88,7 +88,7 @@
 (define (add-wrap-or-stop-code)
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest5_complete.rkt"
                       (add-to-player-entity-components
                        '(stop-on-edge))))
   
@@ -142,19 +142,18 @@
 
 
 (define (random-bg-hue-code)
-  (define target
-    (p:frame #:color "red"
-             (p:code
-              (change-img-hue (random 360) #,(p:scale (p:bitmap (build-path images "grass-bg.png")) 0.25) ))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (wrap-image-within ground-sprite-definition
+                                         '(change-img-hue (random 360) REPLACE-HERE ))))
 
-  (define all-code
-    (p:code (define ground
-              #,target)))
 
-  (code+hints all-code
-              (list target (hint "Write the code before"
-                                 "the image and add a new"
-                                 "parenthesis after the image."))))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint "Write the code before"
+                          "the image and add a new"
+                          "parenthesis after the image."))))
 
 (define-image-file random-bg-hue
   images
@@ -162,20 +161,18 @@
 
 
 (define (random-player-hue-code)
-  (define target
-    (p:frame #:color "red"
-             (p:code
-              (change-img-hue (random 360) #,(p:bitmap (build-path images "player.png")) ))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (wrap-image-within player-sprite-definition
+                                         '(change-img-hue (random 360) REPLACE-HERE ))))
 
-  (define all-code
-    (p:code (define player-sprite
-              (sheet->sprite #,target
-                             #:columns    3))))
 
-  (code+hints all-code
-              (list target (hint "Write the code before"
-                                 "the image and add a new"
-                                 "parenthesis after the image."))))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint "Write the code before"
+                          "the image and add a new"
+                          "parenthesis after the image."))))
 
 
 
@@ -223,29 +220,21 @@
 
 
 (define (scale-an-item-code)
-  (define amount
-    (p:code 2))
-  
-  (define target
-    (p:frame #:color "red"
-             (p:code
-              (scale #,amount #,(p:code-align (p:scale (random-dude) 0.25)) ))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_quest5_complete.rkt"
+                      (wrap-image-within item-sprite-definition
+                                         '(scale 2 REPLACE-HERE ))))
 
-  (define all-code
-    (p:code (define item-sprite
-              (sheet->sprite #,target
-                             #:columns    5
-                             #:delay      2))))
 
-  (code+hints all-code
-              (list target (hint "Write the code before"
-                                 "the image and add a new"
-                                 "parenthesis after the image."))
-              (list amount (hint "A number between 0 and 1 will shrink."
-                                 "A number between 1 and 5 will grow."
-                                 "Numbers greater than 5 will probably be too big,"
-                                 "possibly crashing your game."))
-              ))
+  (code+hints main
+              (list (first hint-targets)
+                    (hint "Write the code before the image and add a new"
+                          "parenthesis after the image."
+                          ""
+                          "A number between 0 and 1 will shrink."
+                          "A number between 1 and 5 will grow."
+                          "Numbers greater than 5 will probably be too big,"
+                          "possibly crashing your game."))))
 
 (define-image-file scale-an-item
   images
@@ -292,8 +281,8 @@
   (map shrink (make-picts "red" "Q6-" day6-2dgame s)))
 
 
-#;(module+ test
-    (analyze-activities day6-2dgame s))
+(module+ test
+  (analyze-activities day6-2dgame s))
 
 
   

@@ -166,7 +166,7 @@
                           (instruction-basic "Insert into your new item definition")
                           (instruction-goal "your new image in your item definition."))
 
-                        (launcher-img replace-sprite)))
+                        (launcher-img replace-item-sprite)))
 
 (define add-new-item-and-test
   (activity-instructions "Add to start-game and Test"
@@ -188,7 +188,7 @@
    (with-award 2 (draw-sprite "collectibles.png" "Item"))
    (with-award 0 export-from-piskel)
 
-   (with-award 3 (replace-sheet "Item"))
+   (with-award 3 (replace-sheet "Item" replace-item-sprite))
    (with-award 1  test-game)
    (choose "any"
            (list

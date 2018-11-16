@@ -43,8 +43,14 @@
          change-defined-constant
          find-defined-constant
          item-sprite-definition
+         player-sprite-definition
+         ground-sprite-definition
 
-         try-smw-and-then)
+         try-smw-and-then
+
+         change-sprite-for-defined-constant
+
+         wrap-image-within)
 
 (require racket/runtime-path)
 (require syntax/parse)
@@ -305,6 +311,11 @@
    (define player-sprite
      expr)))
 
+(define-syntax-class ground-sprite-definition #:datum-literals (define ground)
+  (pattern
+   (define ground
+     expr)))
+
 
 
 (define (most-recently-changed-rkt folder)
@@ -405,6 +416,15 @@
                           (list h:image? delete-this))))
 
 
+(define-syntax-rule (wrap-image-within def
+                                       wrapper-code)
+
+  (let [(extracted-snippet
+         (extract-from-file (current-file) ;Here's where we could get the users file??
+                            def))]
+
+    (typeset-with-targets extracted-snippet
+                          (list h:image? (wrap-with wrapper-code)))))
 
 
 (define-syntax-rule (try-smw-and-then file expr)

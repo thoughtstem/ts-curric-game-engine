@@ -54,7 +54,7 @@
 (define (collide-death-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest3_complete.rkt"
                       (add-to-start-game
                        '(on-collide "bad item" die))))
 
@@ -67,10 +67,6 @@
   images
   (collide-death-img))
 
-(define-webpage random-directions-video
-  this-curriculum
-  "https://bit.ly/2EknCrb")
-
 (define-racket-file moving-sprite-code
   starter-files
   "tsgd_moving_sprite.rkt")
@@ -79,7 +75,7 @@
 (define (bad-item-start-game-image)
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_1.rkt"
+    (try-smw-and-then "tsgd_runner_quest3_complete.rkt"
                       (add-to-start-game
                        `(bad-item-entity (posn 0 0)))))
 
@@ -151,7 +147,7 @@
    (choose "any"
           (list
            (with-award 2 (draw-sprite "bad_sprite.png" "Bad Sprite"))
-           (with-award 1 (replace-sheet "Bad Sprite"))))))
+           (with-award 1 (replace-sheet "Bad Sprite" replace-item-sprite))))))
 
 
 (define s (settings (bg (local-bitmap "bg-arcade.png")) STAR STAR-BONUS STAR-BONUS))

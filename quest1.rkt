@@ -147,7 +147,7 @@
    (choose "any"
            (list
             (with-award 1 save-as)
-            (with-award 1 (replace-sheet "Player"))
+            (with-award 1 (replace-sheet "Player" replace-player-sprite))
             (with-award 1 fix-animation)
             ))))
 
