@@ -1,0 +1,6 @@
+(require rackunit
+         "../main.rkt")
+
+
+(check-equal? ((listof pict?) (quest1)) #t)
+
