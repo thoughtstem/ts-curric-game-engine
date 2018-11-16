@@ -41,10 +41,11 @@
 
 (provide quest6)
 
-(require ts-racket)
+(require (except-in ts-racket id))
 (require ts-curric-common)
 
 (require net/sendurl)
+
 
 (require (prefix-in p: pict/code))
 (require (prefix-in p: pict))
@@ -52,14 +53,6 @@
 (define-runtime-path images "images")
 
 (require "./common.rkt")
-
-
-
-
-(define add-edges-code-img (p:scale (p:code (right-edge)
-                                            (top-edge)
-                                            (bottom-edge))
-                                    4 ))
 
 
 (define (wrap-around-or-stop-on-edge-list)
@@ -92,25 +85,16 @@
   images
   (wrap-around-or-stop-on-edge-list))
 
-
 (define (add-wrap-or-stop-code)
-  (define target
-    (p:frame #:color "red"
-             (p:code (stop-on-edge))))
 
-  (define all-code
-    (p:code (define (player-entity)
-              (sprite->entity player-sprite
-                              #:name       "player"
-                              #:position   (posn 100 100)
-                              #:components (physical-collider)
-                                           (key-movement 10)
-                                           #,target
-                                           (on-start (go-to-pos-inside 'bottom-center))
-                              ))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-player-entity-components
+                       '(stop-on-edge))))
+  
+  (code+hints main
+              (list (first hint-targets) (hint "New code"))))
 
-  (code+hints all-code
-              (list target (hint "New code"))))
 
 (define-image-file add-wrap-or-stop
   images
@@ -308,7 +292,8 @@
   (map shrink (make-picts "red" "Q6-" day6-2dgame s)))
 
 
-(module+ test
-  (analyze-activities day6-2dgame s))
+#;(module+ test
+    (analyze-activities day6-2dgame s))
 
 
+  

@@ -55,29 +55,22 @@
 (define (more-items-code)
 
   (define new-code
-    (p:frame #:color "red"
-     (p:code
-      (item-entity item-sprite (posn 300 300))
-      (item-entity item-sprite (posn 250 100)))))
-
-  (define c
     (p:code
-     (start-game (instructions-entity)
-                 ...
-                 (item-entity item-sprite (posn 200 200))
-                 #,new-code
-                 (player-entity)
-                 ...
-                 bg-entity)))
+      (item-entity item-sprite (posn 300 300))
+      (item-entity item-sprite (posn 250 100))))
 
-  (code+hints c
-              (list new-code (hint "New code"
-                                   "Experiment with posn."))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game new-code)))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint "New code"
+                          "Experiment with posn."))))
 
 
-(define-image-file more-items
-  images
-  (more-items-code))
+(define-launcher-function more-items
+  more-items-code)
 
 
 (define (multiple-items-code)
@@ -86,67 +79,48 @@
     (p:frame #:color "red"
      (p:code
       (item-entity new-item-sprite (posn 250 100))
-      (item-entity new-item-sprite (posn 250 100))
-      )))
+      (item-entity new-item-sprite (posn 250 100)))))
 
-  (define c
-    (p:code
-     (start-game (instructions-entity)
-                 ...
-                 (item-entity item-sprite (posn 300 300))
-                 (item-entity item-sprite (posn 250 100))
-                 (item-entity item-sprite (posn 200 200))
-                 #,new-code
-                 (player-entity)
-                 ...
-                 bg-entity)))
-
-  (code+hints c
-              (list new-code (hint "New code"
-                                   "Remember to use YOUR item identifier"
-                                   "(Probably not new-item-entity)"))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game new-code)))
+  
+  (code+hints main
+              (list (first hint-targets)
+                    (hint "New code"
+                          "Remember to use YOUR item identifier"
+                          "(Probably not new-item-entity)"))))
 
 
-(define-image-file multiple-items
-  images
-  (multiple-items-code))
+(define-launcher-function multiple-items
+  multiple-items-code)
+
 
 
 (define (copy-item-definition-code)
-
-  (define r (p:code-align (p:scale (random-dude) 0.25)))
-
-  (define new-def-id
-    (p:frame #:color "red"
-             (p:code new-item-sprite)))
-
-  (define new-def
-    (p:frame #:color "red"
-             (p:code
-              (define #,new-def-id
-                (sheet->sprite #,r
-                               #:columns    5
-                               #:speed      2)))))
-
-  (define c
-    (p:code
-     (define item-sprite
-       (sheet->sprite #,r
-                      #:columns    5
-                      #:speed      2))
-
-     #,new-def
-     ))
-
-  (code+hints c
-              (list new-def (hint "Copy and paste your item definition."))
-              (list new-def-id (hint "Make sure to change the identifier"
-                                     "on the new definition."))))
+  (define-values (existing-def existing-def-hints)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (find-defined-constant  item-sprite-definition)))
+  
+  (define-values (copied-def copied-def-hints)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (change-defined-constant  item-sprite-definition
+                                                'item-sprite 'new-item-sprite)))
 
 
-(define-image-file copy-item-definition
-  images
-  (copy-item-definition-code)) 
+
+  (code+hints #:settings hints-on-right
+              (p:vl-append 20
+                           (p:frame #:color "red" existing-def)
+                           copied-def)
+              (list existing-def (hint "Copy/Paste this below itself"))
+              (list (first copied-def-hints)
+                    (hint "Then change the identifier"
+                          "on the new definition."))))
+
+
+(define-launcher-function copy-item-definition
+  copy-item-definition-code) 
 
 
 
@@ -225,7 +199,10 @@
             
             ))))
 
+(define s (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))
+
 (define (quest2)
-  (map shrink (make-picts "red" "Q2-" day2-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+  (map shrink (make-picts "red" "Q2-" day2-2dgame s)))
 
-
+(module+ test
+  (analyze-activities day2-2dgame s))

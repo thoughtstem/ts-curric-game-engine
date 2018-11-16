@@ -36,13 +36,22 @@
 
          this-curriculum
          images
-         starter-files)
+         starter-files
+
+         add-to-player-entity-components
+         add-to-start-game
+         change-defined-constant
+         find-defined-constant
+         item-sprite-definition
+
+         try-smw-and-then)
 
 (require racket/runtime-path)
+(require syntax/parse)
 
 (require pict/code)
 (require ts-curric-common)
-(require (except-in ts-racket scale-to-fit))
+(require (except-in ts-racket scale-to-fit id))
 
 (require racket/runtime-path)
 
@@ -251,40 +260,150 @@
 ;; COMPLETE DAYS
 
 
-;(with-award 1 death-by-lava)
 (define death-by-fireball-code-img (scale (code (on-collide "fireball" die)) 4 ))
 
 
-;day 11 Player Shooting and Boss Health
 
 
 
-;;; --- "red" = text color for Q#-#
+;Syntax helpers for code+hints
 
-(require (only-in game-engine get-name))
 
-(provide evaluate-game
-         game-has-player?
-         game-has-chest?
-         game-has-bad-chest?)
 
-(define (game-has-chest? e)
-  (string=? "chest" (get-name e)))
+(define-syntax-class player-entity-def #:datum-literals (player-entity player-sprite sprite->entity)
+  (pattern
+   (define (player-entity)
+     (sprite->entity player-sprite
+                     name-kw:keyword name
+                     position-kw:keyword position
+                     components:keyword first-component rest ...))))
 
-(define (game-has-bad-chest? e)
-  (string=? "bad chest" (get-name e)))
+(define-syntax-class player-entity-call #:datum-literals (player-entity)
+  (pattern (player-entity)))
 
-(define (game-has-player? e)
-  (or
-   (string=? "player" (get-name e))
-   (string=? "hero" (get-name e))))
+(define-syntax-class start-game-call #:datum-literals (start-game)
+  (pattern
+   (start-game
+    before-player ...
+    player:player-entity-call
+    after-player ...
+    background)))
 
-(define (run-test t es)
-  (define results (filter t es))
-  (or results
-      #f))
+(define-syntax-class item-sprite-definition #:datum-literals (define item-sprite)
+  (pattern
+   (define item-sprite
+     expr)))
 
-(define (evaluate-game tests . es)
-  (map (curryr run-test es) tests))
 
+
+
+
+(define (most-recently-changed-rkt folder)
+  (parameterize ([current-directory folder])
+    (define paths (directory-list))
+    
+    (define mod-times (map file-or-directory-modify-seconds paths))
+    (build-path folder
+                (path->string (list-ref paths (index-of mod-times (apply max mod-times)))))))
+
+(define (most-recently-changed-smw-rkt)
+  (most-recently-changed-rkt (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK")))
+
+
+
+(define current-file (make-parameter #f))
+
+
+(define (add-to-player-entity-components thing)
+ 
+  (define extracted-snippet
+    (extract-from-file (current-file) ;Here's where we could get the users file??
+                       player-entity-def))
+
+
+  ;Now we inject the SNIPE datum in exactly the right spot..
+  (define extracted-snippet-transformed
+    (syntax-parse extracted-snippet
+      [p:player-entity-def
+       #`(define (player-entity)
+           (sprite->entity player-sprite
+                           p.name-kw p.name
+                           p.position-kw p.position
+                           p.components p.first-component p.rest ...
+                           #,(datum->syntax #f 'SNIPE #'p.first-component)))]
+      [other #'nope]))
+
+  ;Now we replace the SNIPE datum and generate the images for code+hints
+  (typeset-with-targets extracted-snippet-transformed
+                          (list 'SNIPE
+                                (replace-with thing))))
+
+
+
+
+(define (add-to-start-game thing)
+
+  (define extracted-snippet
+    (extract-from-file (current-file)
+                       start-game-call))
+
+
+  ;Now we inject the SNIPE datum in exactly the right spot..
+  (define extracted-snippet-transformed
+    (syntax-parse extracted-snippet
+      [s:start-game-call
+       #`(start-game
+          s.before-player ...
+          s.player
+          #,(datum->syntax #f 'SNIPE #'s.background)
+          s.after-player ...
+          s.background)]
+      [other #'nope]))
+
+  ;Now we replace the SNIPE datum and generate the images for code+hints
+  (typeset-with-targets extracted-snippet-transformed
+                        (list 'SNIPE
+                              (replace-with thing))))
+
+
+;Must be syntax rule because def is a syntax-class?  Can't pass those around as values...
+(define-syntax-rule (change-defined-constant def old-id new-id)
+  (let [( extracted-snippet
+          (extract-from-file (current-file)
+                             def))]
+
+    (typeset-with-targets extracted-snippet
+                          (list old-id
+                                (replace-with new-id)))))
+
+
+(define-syntax-rule (find-defined-constant def)
+  (let [(extracted-snippet
+          (extract-from-file (current-file)
+                             def))]
+
+
+    (typeset-with-targets extracted-snippet)))
+
+
+
+(define-syntax-rule (try-smw-and-then file expr)
+  
+  (letrec-values ([(problem?) #f]
+               [(main hints)
+                (with-handlers ([exn:fail? (lambda(e)
+                                             (set! problem? #t)
+                                             (parameterize
+                                               ([current-file (build-path starter-files file)])
+                                             expr))])
+                  (parameterize ([current-file (most-recently-changed-smw-rkt)])
+                    expr))])
+
+    (and problem?
+         (displayln (~a
+                     "NOTE: There's something wrong with your file: " (most-recently-changed-smw-rkt) ".  You should fix it before you go on.")))
+    
+    (values main hints)
+
+    ))
 

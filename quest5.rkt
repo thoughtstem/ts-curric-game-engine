@@ -70,20 +70,16 @@
   between-definitions-explanation)
 
 
+
 (define (start-game-score-code)
  
-  (define target (p:frame #:color "red"
-                          (p:code (score-entity))))
-  
-  (define code-img
-    (p:code (start-game (instructions-entity)
-                        ...
-                        #,target
-                        ...
-                        bg-entity)))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game
+                       '(score-entity))))
 
-  (code+hints code-img
-              (list target (hint "New code"))))
+  (code+hints main
+              (list (first hint-targets) (hint "New code"))))
 
 (define-image-file start-game:score
   images
@@ -92,18 +88,13 @@
 
 (define (start-game:game-over-code)
  
-  (define target (p:frame #:color "red"
-                          (p:code (game-over-screen))))
-  
-  (define code-img
-    (p:code (start-game (instructions-entity)
-                        ...
-                        #,target
-                        ...
-                        bg-entity)))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game
+                       '(game-over-screen))))
 
-  (code+hints code-img
-              (list target (hint "New code"))))
+  (code+hints main
+              (list (first hint-targets) (hint "New code"))))
 
 (define-image-file start-game:game-over
   images

@@ -17,22 +17,15 @@
 
 
 (define (collide-death-img)
-  (define target (p:frame #:color "red"
-                          (p:code (on-collide "bad item" die))))
-  
-  (define code-img
-    (p:code (define (player-entity)
-              (sprite->entity player-sprite
-                              #:name       "player"
-                              #:position   (posn 100 100)
-                              #:components
-                              #,target
-                              (physical-collider)
-                              (key-movement 10)
-                              (on-start (go-to-pos-inside 'bottom-center))))))
+ 
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game
+                       '(on-collide "bad item" die))))
 
-  (code+hints code-img
-              (list target (hint (p:text "Put your code here.")))))
+  (code+hints main
+              (list (first hint-targets)
+                    (hint (p:text "Put your code here.")))))
 
 
 (define-image-file collide-death
@@ -49,33 +42,26 @@
 
 
 (define (bad-item-start-game-image)
-  (define location (p:code (posn 0 0)))
-  
-  (define target (p:frame #:color "red"
-                          (p:code (bad-item-entity #,location))))
-  
-  (define code-img
-    (p:code (start-game (instructions-entity)
-                        #,target
-                        (item-entity item-sprite (posn 200 200))
-                        (player-entity)
-                        (ground-entity (posn (/ WIDTH 2) (- (/ HEIGHT 2) HEIGHT)))
-                        (ground-entity (posn (/ WIDTH 2) (/ HEIGHT 2)))
-                        bg-entity)))
 
-  (code+hints code-img
-              (list target (hint (p:vl-append
-                                  (p:text "Put your code here.")
-                                  (p:hb-append
-                                   (p:text "Experiment with the numbers in")
-                                   (p:code (posn 0 0))))))))
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_1.rkt"
+                      (add-to-start-game
+                       `(bad-item-entity (posn 0 0)))))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint (p:vl-append
+                           (p:text "Put your code here.")
+                           (p:hb-append
+                            (p:text "Experiment with the numbers in ")
+                            (p:code (posn 0 0))))))))
 
 (define-image-file bad-item-start-game
   images
   (bad-item-start-game-image))
 
 
-(define-launcher-list bad-item #;moving-sprite
+(define-launcher-list bad-item 
   paste-the-code-below-into-your-file
   moving-sprite-code
   paste-the-code-above-into-your-file
@@ -134,8 +120,10 @@
            (with-award 1 (replace-sheet "Bad Sprite"))))))
 
 
+(define s (settings (bg (local-bitmap "bg-arcade.png")) STAR STAR-BONUS STAR-BONUS))
 
 (define (quest4)
-  (map shrink (make-picts "red" "Q4-" day4-2dgame (settings (bg (local-bitmap "bg-arcade.png")) STAR STAR-BONUS STAR-BONUS))))
+  (map shrink (make-picts "red" "Q4-" day4-2dgame s)))
 
-
+(module+ test
+  (analyze-activities day4-2dgame s))
