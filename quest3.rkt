@@ -93,7 +93,7 @@
             (with-award 0 export-sprite-sheet)
             (with-award 1 (insert-sprite-sheet "Player" replace-player-sprite))))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) G-MUSH G-MUSH-BONUS G-MUSH-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (G-MUSH) (G-MUSH-BONUS) (G-MUSH-BONUS)))
 
 (define (quest3)
   (map shrink (make-picts "red" "Q3-" day3-2dgame s)))

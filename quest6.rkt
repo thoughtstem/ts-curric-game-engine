@@ -275,7 +275,7 @@
            ))
    ))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) LINK LINK-BONUS LINK-BONUS ))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (LINK) (LINK-BONUS) (LINK-BONUS )))
 
 (define (quest6)
   (map shrink (make-picts "red" "Q6-" day6-2dgame s)))

@@ -163,7 +163,7 @@
             
             (with-award 1 customize-game-over-message-more)))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) R-MUSH R-MUSH-BONUS R-MUSH-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (R-MUSH) (R-MUSH-BONUS) (R-MUSH-BONUS)))
 
 (define (quest5)
   (map shrink (make-picts "red" "Q5-" day5-2dgame s)))

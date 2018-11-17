@@ -201,7 +201,7 @@
             
             ))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))
 
 (define (quest2)
   (map shrink (make-picts "red" "Q2-" day2-2dgame s)))

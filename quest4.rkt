@@ -150,7 +150,7 @@
            (with-award 1 (replace-sheet "Bad Sprite" replace-item-sprite))))))
 
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) STAR STAR-BONUS STAR-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (STAR) (STAR-BONUS) (STAR-BONUS)))
 
 (define (quest4)
   (map shrink (make-picts "red" "Q4-" day4-2dgame s)))

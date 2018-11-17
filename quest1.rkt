@@ -151,7 +151,7 @@
             (with-award 1 fix-animation)
             ))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (PACMAN) (PACMAN-BONUS) (PACMAN-BONUS)))
 
 (define (quest1)
   (map shrink (make-picts "red" "Q1-" day1-2dgame s)))

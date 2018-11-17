@@ -133,7 +133,7 @@
    ))
 
 (define (quest7)
-  (map shrink (make-picts "red" "Q7-" day7-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+  (map shrink (make-picts "red" "Q7-" day7-2dgame (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))))
 
 
 
