@@ -11,7 +11,8 @@
   quest4
   quest5
   quest6
-  quest7
-  quest8
-  quest9
-  quest10)
+  ;quest7
+  ;quest8
+  ;quest9
+  ;quest10
+)

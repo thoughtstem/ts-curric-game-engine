@@ -258,7 +258,7 @@
   this-curriculum
   "http://bit.ly/2Ark1Wv")
 
-(define export-from-piskel
+(define (export-from-piskel)
   (activity-instructions "Export the Texture"
                          '()
                          (list (instruction-basic "Export from Piskel to SAVE_MY_WORK.")

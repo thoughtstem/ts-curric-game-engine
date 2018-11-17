@@ -81,9 +81,8 @@
      (p:text "There's one more option;")
      (p:text "can you figure it out??")))))
 
-(define-image-file wrap-or-stop
-  images
-  (wrap-around-or-stop-on-edge-list))
+(define-launcher-function wrap-or-stop
+  wrap-around-or-stop-on-edge-list)
 
 (define (add-wrap-or-stop-code)
 
@@ -96,13 +95,12 @@
               (list (first hint-targets) (hint "New code"))))
 
 
-(define-image-file add-wrap-or-stop
-  images
-  (add-wrap-or-stop-code))
+(define-launcher-function add-wrap-or-stop
+  add-wrap-or-stop-code)
 
 
 
-(define edge-options
+(define (edge-options)
   (activity-instructions "Different Edge Rules"
                          '()
                          (list                        
@@ -111,7 +109,7 @@
                           (instruction-goal "which option you chose."))
                         (launcher-img wrap-or-stop)))
 
-(define test-edge-options
+(define (test-edge-options)
   (activity-instructions "Test the Options"
                          '()
                          (list 
@@ -121,7 +119,7 @@
                           (instruction-goal "the difference between wrap-around and stop-on-edge."))
                         (launcher-img add-wrap-or-stop)))
 
-(define choose-edge-option
+(define (choose-edge-option)
   (activity-instructions "Make the Call"
                          '()
                          (list                        
@@ -131,7 +129,7 @@
                         (p:ghost (p:circle 1))
                         ))
 
-(define choose-your-own-adventure
+(define (choose-your-own-adventure)
   (activity-instructions "What Next?"
                          '()
                          (list                        
@@ -155,9 +153,8 @@
                           "the image and add a new"
                           "parenthesis after the image."))))
 
-(define-image-file random-bg-hue
-  images
-  (random-bg-hue-code))
+(define-launcher-function random-bg-hue
+  random-bg-hue-code)
 
 
 (define (random-player-hue-code)
@@ -176,12 +173,11 @@
 
 
 
-(define-image-file random-player-hue
-  images
-  (random-player-hue-code))
+(define-launcher-function random-player-hue
+  random-player-hue-code)
 
 ;refactor this video to launched code
-(define random-hue-background
+(define (random-hue-background)
   (activity-instructions "Random Hue Background"
                          '()
                          (list                        
@@ -192,7 +188,7 @@
                         (launcher-img random-bg-hue)))
 
 
-(define random-hue-player
+(define (random-hue-player)
   (activity-instructions "Random Hue Player"
                          '()
                          (list                        
@@ -202,11 +198,11 @@
                           (instruction-goal "a random colored player in your game"))
                         (launcher-img random-player-hue)))
 
-(define-image-file piskel:resize-canvas
-  images
-  (p:bitmap (build-path images "resize-canvas.png")))
+(define-launcher-function piskel:resize-canvas
+  (thunk
+   (p:bitmap (build-path images "resize-canvas.png"))))
 
-(define new-custom-background
+(define (new-custom-background)
   (activity-instructions "Custom Background"
                          '()
                          (list                        
@@ -236,11 +232,10 @@
                           "Numbers greater than 5 will probably be too big,"
                           "possibly crashing your game."))))
 
-(define-image-file scale-an-item
-  images
-  (scale-an-item-code))
+(define-launcher-function scale-an-item
+  scale-an-item-code)
 
-(define scale-the-item
+(define (scale-the-item)
   (activity-instructions "Scale An Item"
                          '()
                          (list                        
@@ -251,38 +246,38 @@
 
 
 ;day 7 Stop on Edge and Wrap Around
-(define day6-2dgame
+(define (day6-2dgame)
   (list
    (with-award 0 open-file)
    ;list of stop on edge
-   (with-award 0 edge-options)
+   (with-award 0 (edge-options))
    ;test different combos on player
-   (with-award 2 test-edge-options)
+   (with-award 2 (test-edge-options))
    ;make creative choice on what you want
-   (with-award 1 choose-edge-option)
+   (with-award 1 (choose-edge-option))
    (choose "any"
           (list
            ;choose any/all of the following cards
-           (with-award 0 choose-your-own-adventure)
+           (with-award 0 (choose-your-own-adventure))
            ;scale an entity
            ;New bg
-           (with-award 1 random-hue-background)
-           (with-award 1 random-hue-player)
+           (with-award 1 (random-hue-background))
+           (with-award 1 (random-hue-player))
 
-           (with-award 1 new-custom-background)
+           (with-award 1 (new-custom-background))
 
-           (with-award 1 scale-the-item)
+           (with-award 1 (scale-the-item))
            ))
    ))
 
 (define s (settings (bg (local-bitmap "bg-arcade.png")) (LINK) (LINK-BONUS) (LINK-BONUS )))
 
 (define (quest6)
-  (map shrink (make-picts "red" "Q6-" day6-2dgame s)))
+  (map shrink (make-picts "red" "Q6-" (day6-2dgame) s)))
 
 
 (module+ test
-  (analyze-activities day6-2dgame s))
+  (analyze-activities (day6-2dgame) s))
 
 
   

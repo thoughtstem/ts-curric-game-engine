@@ -81,9 +81,8 @@
   (code+hints main
               (list (first hint-targets) (hint "New code"))))
 
-(define-image-file start-game:score
-  images
-  (start-game-score-code))
+(define-launcher-function start-game:score
+  start-game-score-code)
 
 
 (define (start-game:game-over-code)
@@ -96,13 +95,12 @@
   (code+hints main
               (list (first hint-targets) (hint "New code"))))
 
-(define-image-file start-game:game-over
-  images
-  (start-game:game-over-code))
+(define-launcher-function start-game:game-over
+  start-game:game-over-code)
 
                                                  
 
-(define modify-score
+(define (modify-score)
   (activity-instructions "Add Score to start-game"
                          '()
                          (list
@@ -113,7 +111,7 @@
 
 
 
-(define game-over-screen-start-game
+(define (game-over-screen-start-game)
   (activity-instructions "Add to start-game"
                          '()
                          (list
@@ -124,7 +122,7 @@
                          (launcher-img start-game:game-over)))
 
 
-(define customize-game-over-message
+(define (customize-game-over-message)
   (activity-instructions "Edit the game over message"
                          '()
                          (list
@@ -138,7 +136,7 @@
 
 
 
-(define customize-game-over-message-more
+(define (customize-game-over-message-more)
   (activity-instructions "Edit the game over message"
                          '()
                          (list
@@ -149,25 +147,25 @@
                          ))
 
 ;Add a Score Entity
-(define day5-2dgame
+(define (day5-2dgame)
   (list
    (with-award 0 open-file)
    (with-award 0 (load-new-code keep-score))      
-   (with-award 2 modify-score)
+   (with-award 2 (modify-score))
 
    (choose "any"
            (list
             (with-award 1 (load-new-code game-over))
-            (with-award 1 game-over-screen-start-game)
-            (with-award 1 customize-game-over-message)
+            (with-award 1 (game-over-screen-start-game))
+            (with-award 1 (customize-game-over-message))
             
-            (with-award 1 customize-game-over-message-more)))))
+            (with-award 1 (customize-game-over-message-more))))))
 
 (define s (settings (bg (local-bitmap "bg-arcade.png")) (R-MUSH) (R-MUSH-BONUS) (R-MUSH-BONUS)))
 
 (define (quest5)
-  (map shrink (make-picts "red" "Q5-" day5-2dgame s)))
+  (map shrink (make-picts "red" "Q5-" (day5-2dgame) s)))
 
 
 (module+ test
-  (analyze-activities day5-2dgame s))
+  (analyze-activities (day5-2dgame) s))
