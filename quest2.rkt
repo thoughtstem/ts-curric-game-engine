@@ -1,6 +1,5 @@
 #lang racket
 
-
 ;High level goals:
 #;(
 
@@ -127,7 +126,7 @@
 
 
 
-(define add-more-collectibles
+(define (add-more-collectibles)
   (activity-instructions "Add More Items"
                          '()
                          (list                        
@@ -144,7 +143,7 @@
 
 
 
-(define copy-paste-item-code
+(define (copy-paste-item-code)
   (activity-instructions "Copy an Existing item"
                          '()
                          (list                        
@@ -157,7 +156,7 @@
                          ;TODO:FIX
                          (launcher-img copy-item-definition)))
 
-(define draw/export/insert-sprite
+(define (draw/export/insert-sprite)
   (activity-instructions "Create new item in Piskel"
                          '()
                          (list                        
@@ -168,7 +167,7 @@
 
                         (launcher-img replace-item-sprite)))
 
-(define add-new-item-and-test
+(define (add-new-item-and-test)
   (activity-instructions "Add to start-game and Test"
                          '()
                          (list                        
@@ -182,29 +181,29 @@
 
 
 ;Design your own Collectible
-(define day2-2dgame
+(define (day2-2dgame)
   (list
    (with-award 0 open-file)
    (with-award 2 (draw-sprite "collectibles.png" "Item"))
-   (with-award 0 export-from-piskel)
+   (with-award 0 (export-from-piskel))
 
    (with-award 3 (replace-sheet "Item" replace-item-sprite))
    (with-award 1  test-game)
    (choose "any"
            (list
             
-            (with-award 1 add-more-collectibles)
+            (with-award 1 (add-more-collectibles))
 
-            (with-award 1 copy-paste-item-code)
-            (with-award 1 draw/export/insert-sprite)
-            (with-award 1 add-new-item-and-test)
+            (with-award 1 (copy-paste-item-code))
+            (with-award 1 (draw/export/insert-sprite))
+            (with-award 1 (add-new-item-and-test))
             
             ))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))
 
 (define (quest2)
-  (map shrink (make-picts "red" "Q2-" day2-2dgame s)))
+  (map shrink (make-picts "red" "Q2-" (day2-2dgame) s)))
 
 (module+ test
-  (analyze-activities day2-2dgame s))
+  (analyze-activities (day2-2dgame) s))

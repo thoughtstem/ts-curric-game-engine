@@ -1,5 +1,6 @@
 #lang slideshow
 
+(displayln "Common")
 
 (provide load-new-code
          
@@ -74,30 +75,30 @@
   (bitmap (~a (path->string images) "/" s)))
 
 
-(define MARIO        (circlify "blue" (local-avatar "mario")))
-(define MARIO-BONUS  (circlify "red" (local-avatar "mario")))
-(define PACMAN       (circlify "blue" (local-avatar "pacman")))
-(define PACMAN-BONUS (circlify "red" (local-avatar "pacman")))
-(define G-MUSH       (circlify "blue" (local-avatar "greenMushroom")))
-(define G-MUSH-BONUS (circlify "red" (local-avatar "greenMushroom")))
-(define R-MUSH       (circlify "blue" (local-avatar "redMushroom")))
-(define R-MUSH-BONUS (circlify "red" (local-avatar "redMushroom")))
-(define STAR         (circlify "blue" (local-avatar "star")))
-(define STAR-BONUS   (circlify "red" (local-avatar "star")))
-(define LINK         (circlify "blue" (local-avatar "link")))
-(define LINK-BONUS   (circlify "red" (local-avatar "link")))
-(define SAMUS        (circlify "blue" (local-avatar "samus")))
-(define SAMUS-BONUS  (circlify "red" (local-avatar "samus")))
-(define PIKACHU          (circlify "blue" (local-avatar "pikachu")))
-(define PIKACHU-BONUS    (circlify "red" (local-avatar "pikachu")))
-(define CHARMANDER       (circlify "blue" (local-avatar "charmander")))
-(define CHARMANDER-BONUS (circlify "red" (local-avatar "charmander")))
-(define SQUIRTLE         (circlify "blue" (local-avatar "squirtle")))
-(define SQUIRTLE-BONUS   (circlify "red" (local-avatar "squirtle")))
-(define YOSHI         (circlify "blue" (local-avatar "yoshi")))
-(define YOSHI-BONUS   (circlify "red" (local-avatar "yoshi")))
-(define SONIC         (circlify "blue" (local-avatar "sonic")))
-(define SONIC-BONUS   (circlify "red" (local-avatar "sonic")))
+(define (MARIO)        (circlify "blue" (local-avatar "mario")))
+(define (MARIO-BONUS)  (circlify "red" (local-avatar "mario")))
+(define (PACMAN)       (circlify "blue" (local-avatar "pacman")))
+(define (PACMAN-BONUS) (circlify "red" (local-avatar "pacman")))
+(define (G-MUSH)       (circlify "blue" (local-avatar "greenMushroom")))
+(define (G-MUSH-BONUS) (circlify "red" (local-avatar "greenMushroom")))
+(define (R-MUSH)       (circlify "blue" (local-avatar "redMushroom")))
+(define (R-MUSH-BONUS) (circlify "red" (local-avatar "redMushroom")))
+(define (STAR)         (circlify "blue" (local-avatar "star")))
+(define (STAR-BONUS)   (circlify "red" (local-avatar "star")))
+(define (LINK)         (circlify "blue" (local-avatar "link")))
+(define (LINK-BONUS)   (circlify "red" (local-avatar "link")))
+(define (SAMUS)        (circlify "blue" (local-avatar "samus")))
+(define (SAMUS-BONUS)  (circlify "red" (local-avatar "samus")))
+(define (PIKACHU)          (circlify "blue" (local-avatar "pikachu")))
+(define (PIKACHU-BONUS)    (circlify "red" (local-avatar "pikachu")))
+(define (CHARMANDER)       (circlify "blue" (local-avatar "charmander")))
+(define (CHARMANDER-BONUS) (circlify "red" (local-avatar "charmander")))
+(define (SQUIRTLE)         (circlify "blue" (local-avatar "squirtle")))
+(define (SQUIRTLE-BONUS)   (circlify "red" (local-avatar "squirtle")))
+(define (YOSHI)         (circlify "blue" (local-avatar "yoshi")))
+(define (YOSHI-BONUS)   (circlify "red" (local-avatar "yoshi")))
+(define (SONIC)         (circlify "blue" (local-avatar "sonic")))
+(define (SONIC-BONUS)   (circlify "red" (local-avatar "sonic")))
 
 (define (shrink i)
   (quest-card-material
@@ -157,9 +158,8 @@
                          (scale (local-bitmap image) 2.0)))
 
 
-(define-image-file import-image
-  images
-  (local-bitmap "piskel-import.png"))
+(define-launcher-function import-image
+  (thunk (local-bitmap "piskel-import.png")))
 
 
 (define (import-to-piskel sprite)
@@ -205,9 +205,8 @@
   (code+hints code-img
               (list columns (hint (text "This should not be 3.  Experiment.")))))
 
-(define-image-file change-columns
-  images
-  (change-columns-img))
+(define-launcher-function change-columns
+  change-columns-img)
 
 
 (define-syntax-rule (replace-sprite-step-1 def)
@@ -259,7 +258,7 @@
   this-curriculum
   "http://bit.ly/2Ark1Wv")
 
-(define export-from-piskel
+(define (export-from-piskel)
   (activity-instructions "Export the Texture"
                          '()
                          (list (instruction-basic "Export from Piskel to SAVE_MY_WORK.")

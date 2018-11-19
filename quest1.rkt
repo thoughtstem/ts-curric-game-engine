@@ -45,10 +45,6 @@
 
 (require "./common.rkt")
 
-(define-webpage open-racket-video
-  this-curriculum
-  "http://bit.ly/2HV5yHn")
-
 (define-webpage runner-game-review
   this-curriculum
   "http://bit.ly/2OoFkiq")
@@ -57,15 +53,6 @@
 (define-webpage reload-video
   this-curriculum
   "http://bit.ly/2Q2yKAh")
-
-
-(define open-racket-only
-  (activity-instructions "Dr Racket Basics"
-                         '()
-                         (list (instruction-open "DrRacket")
-                               (instruction-goal "the blank file in DrRacket."))
-
-                         (launcher-img open-racket-video)))
 
 
 (define (load-code demo-name)
@@ -114,7 +101,7 @@
   "http://bit.ly/2ImsLCl")
 
 
-(define save-as
+(define (save-as)
   (activity-instructions "Save the File"
                          '()
                          (list (instruction-basic "Return to the code with your favorite game style.")
@@ -124,7 +111,7 @@
                          (launcher-img save-as-video)))
 
 
-(define fix-animation
+(define (fix-animation)
   (activity-instructions "Fix your animation"
                          '()
                          (list (instruction-basic "If you run your code now, it will look weird (Try it!)")
@@ -143,15 +130,15 @@
    (with-award 1 (load-code-more "4" "load_runner.png"))
    (with-award 3 (google-form "http://bit.ly/2Hkkuxr"))
    (with-award 2 (draw-sprite-style "betty_single.png" "Character"))
-   (with-award 0 export-from-piskel)
+   (with-award 0 (export-from-piskel))
    (choose "any"
            (list
-            (with-award 1 save-as)
+            (with-award 1 (save-as))
             (with-award 1 (replace-sheet "Player" replace-player-sprite))
-            (with-award 1 fix-animation)
+            (with-award 1 (fix-animation))
             ))))
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) PACMAN PACMAN-BONUS PACMAN-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (PACMAN) (PACMAN-BONUS) (PACMAN-BONUS)))
 
 (define (quest1)
   (map shrink (make-picts "red" "Q1-" day1-2dgame s)))

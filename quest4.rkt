@@ -63,9 +63,8 @@
                     (hint (p:text "Put your code here.")))))
 
 
-(define-image-file collide-death
-  images
-  (collide-death-img))
+(define-launcher-function collide-death
+  collide-death-img)
 
 (define-racket-file moving-sprite-code
   starter-files
@@ -98,7 +97,7 @@
   between-definitions-explanation)
 
 
-(define add-sprites-and-edge
+(define (add-sprites-and-edge)
   (activity-instructions "Add Bad Item"
                          '()
                          (list
@@ -111,7 +110,7 @@
 
 
 ;(with-award 2 add-death-to-hero)
-(define add-death-on-collide
+(define (add-death-on-collide)
   (activity-instructions "Make the Bad Item Bad"
                          '()
                          (list
@@ -124,7 +123,7 @@
 
 
 ;(with-award 1 test-game) ;Add adjust speed values?
-(define test-and-modify-game
+(define (test-and-modify-game)
   (activity-instructions "Modify and Test Game"
                          '()
                          (list
@@ -136,24 +135,24 @@
 
 
 ;Add a Moving Bad Sprite
-(define day4-2dgame
+(define (day4-2dgame)
   (list
    
    (with-award 0 open-file)
    (with-award 0 (load-new-code bad-item))
-   (with-award 2 add-sprites-and-edge)
-   (with-award 2 add-death-on-collide)
-   (with-award 1 test-and-modify-game)
+   (with-award 2 (add-sprites-and-edge))
+   (with-award 2 (add-death-on-collide))
+   (with-award 1 (test-and-modify-game))
    (choose "any"
           (list
            (with-award 2 (draw-sprite "bad_sprite.png" "Bad Sprite"))
            (with-award 1 (replace-sheet "Bad Sprite" replace-item-sprite))))))
 
 
-(define s (settings (bg (local-bitmap "bg-arcade.png")) STAR STAR-BONUS STAR-BONUS))
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (STAR) (STAR-BONUS) (STAR-BONUS)))
 
 (define (quest4)
-  (map shrink (make-picts "red" "Q4-" day4-2dgame s)))
+  (map shrink (make-picts "red" "Q4-" (day4-2dgame) s)))
 
 (module+ test
-  (analyze-activities day4-2dgame s))
+  (analyze-activities (day4-2dgame) s))
