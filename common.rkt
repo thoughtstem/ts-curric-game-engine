@@ -1,7 +1,5 @@
 #lang slideshow
 
-(displayln "Common")
-
 (provide load-new-code
          
          open-file-video
