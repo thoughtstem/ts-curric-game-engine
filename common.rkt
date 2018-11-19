@@ -34,12 +34,15 @@
          STAR-BONUS
          LINK
          LINK-BONUS
+         SAMUS
+         SAMUS-BONUS
 
          this-curriculum
          images
          starter-files
 
          add-to-player-entity-components
+         add-to-enemy-entity-components
          add-to-start-game
          change-defined-constant
          find-defined-constant
@@ -289,6 +292,14 @@
                      position-kw:keyword position
                      components:keyword first-component rest ...))))
 
+(define-syntax-class enemy-entity-def #:datum-literals (enemy-entity enemy-sprite sprite->entity)
+  (pattern
+   (define (enemy-entity)
+     (sprite->entity enemy-sprite
+                     name-kw:keyword name
+                     position-kw:keyword position
+                     components:keyword first-component rest ...))))
+
 (define-syntax-class player-entity-call #:datum-literals (player-entity)
   (pattern (player-entity)))
 
@@ -346,6 +357,30 @@
       [p:player-entity-def
        #`(define (player-entity)
            (sprite->entity player-sprite
+                           p.name-kw p.name
+                           p.position-kw p.position
+                           p.components p.first-component p.rest ...
+                           #,(datum->syntax #f 'SNIPE #'p.first-component)))]
+      [other #'nope]))
+
+  ;Now we replace the SNIPE datum and generate the images for code+hints
+  (typeset-with-targets extracted-snippet-transformed
+                          (list 'SNIPE
+                                (replace-with thing))))
+
+(define (add-to-enemy-entity-components thing)
+ 
+  (define extracted-snippet
+    (extract-from-file (current-file) ;Here's where we could get the users file??
+                       player-entity-def))
+
+
+  ;Now we inject the SNIPE datum in exactly the right spot..
+  (define extracted-snippet-transformed
+    (syntax-parse extracted-snippet
+      [p:player-entity-def
+       #`(define (enemy-entity)
+           (sprite->entity enemy-sprite
                            p.name-kw p.name
                            p.position-kw p.position
                            p.components p.first-component p.rest ...

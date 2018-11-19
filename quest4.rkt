@@ -55,7 +55,7 @@
  
   (define-values (main hint-targets)
     (try-smw-and-then "tsgd_runner_quest3_complete.rkt"
-                      (add-to-start-game
+                      (add-to-player-entity-components
                        '(on-collide "bad item" die))))
 
   (code+hints main
@@ -109,7 +109,6 @@
 
 
 
-;(with-award 2 add-death-to-hero)
 (define (add-death-on-collide)
   (activity-instructions "Make the Bad Item Bad"
                          '()
@@ -122,7 +121,6 @@
 
 
 
-;(with-award 1 test-game) ;Add adjust speed values?
 (define (test-and-modify-game)
   (activity-instructions "Modify and Test Game"
                          '()

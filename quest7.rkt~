@@ -1,6 +1,6 @@
 #lang racket
 
-(provide quest6)
+(provide quest7)
 
 (require ts-racket)
 (require ts-curric-common)
@@ -15,144 +15,125 @@
 (require "./common.rkt")
 
 
-
-
-(define add-edges-code-img (p:scale (p:code (right-edge)
-                                            (top-edge)
-                                            (bottom-edge))
-                                    4 ))
-
-(define add-edges
-  (activity-instructions "Add More Edges"
+(define add-enemy-code
+  (activity-instructions "Add the Enemy Code"
                          '()
-                         (list                        
-                          (instruction-basic "Find (start-game ...)")
-                          (instruction-basic "AFTER (left-edge), type:")
-                          (instruction-image (text-with-image "             " add-edges-code-img) 640 140 "")
-                          (instruction-goal "your new code."))
-                        (video-qr "https://bit.ly/2JCHI38")))
+                         (list (instruction-basic "Open TS Magic Loader.")
+                               (instruction-basic (text-with-image "Load: " (p:scale (codify "tsgd_enemy") 1.5)))
+                               (instruction-basic "Copy/Paste the Code BEFORE (define (lost? g e)")
+                               (instruction-goal "your new code in your project"))
+                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 250 250 #:mode 'preserve)))
+
+(define add-enemy-entity
+  (activity-instructions "Add the Enemy Entity"
+                         '()
+                         (list (instruction-basic "Find the (start-game) code and make a new line AFTER (score-entity).")
+                               (instruction-basic (text-with-image "Type: " (p:scale (codify "(enemy-entity)") 1.5)))
+                               (instruction-basic "Test the game.")
+                               (instruction-goal "your enemy in game."))
+                         (p:scale-to-fit (local-bitmap "tsgd_add_enemy_entity.png") 250 250 #:mode 'preserve)))
 
 
-
-(define stop-on-left-code-img (p:scale (p:code (on-collide "left edge" (go-to-pos-inside 'left)))
-                                       4 ))
-
-(define stop-on-left-edge
-  (activity-instructions "Stop On Left Edge"
+;   (with-award 2 death-by-dragon)
+(define death-by-dragon
+  (activity-instructions "Add Death by Dragon"
                          '()
                          (list                        
                           (instruction-basic "Find (define (hero-entity) ...)")
-                          (instruction-basic "AFTER (key-movement ...), type:")
-                          (instruction-image (text-with-image "      " stop-on-left-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player stopping on the left edge"))
-                        (video-qr "https://bit.ly/2KoUseY")))
+                          (instruction-basic "Make a new line after (on-collide \"###\" die).")
+                          (instruction-basic (text-with-image "Type: " (codify "(on-collide \"dragon\" die)")))
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "your hero dying by the dragon"))
+                        (p:scale-to-fit (local-bitmap "tsgd_add_death.png") 250 250 #:mode 'preserve)))
 
-
-(define more-stop-on-edge-code-img (p:scale (p:code (on-collide "right edge"  (go-to-pos-inside 'right))
-                                                    (on-collide "top edge"    (go-to-pos-inside 'top))
-                                                    (on-collide "bottom edge" (go-to-pos-inside 'bottom))
-                                                    )
-                                            4 ))
-
-(define more-stop-on-edge
-  (activity-instructions "More Stop On Edges"
+;   (with-award 1 add-rotation-style)
+(define add-rotation-style
+  (activity-instructions "Add Rotation Style"
                          '()
                          (list                        
-                          (instruction-basic "Add more edge stoppers for right, top, and bottom.")
-                          (instruction-basic "It should look like this:")
-                          (instruction-image (text-with-image "      " more-stop-on-edge-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player stopping on all edges"))
-                         (video-qr "https://bit.ly/2rajRkC")))
+                          (instruction-basic "Find (define (enemy-entity) ...)")
+                          (instruction-basic "Make a new line after (every-tick (move)) and type:")
+                          (instruction-image (p:scale (codify "(rotation-style 'left-right)") 2) 640 60 "")
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "the dragon pointing left and right"))
+                        (p:scale-to-fit (local-bitmap "tsgd_add_rotation_style.png") 250 250 #:mode 'preserve)))
 
-(define wrap-around-code-img (p:scale (p:code (on-collide "top edge"    (go-to-pos-inside 'bottom))
-                                              (on-collide "bottom edge" (go-to-pos-inside 'top))
-                                              )
-                                      4 ))
 
-(define wrap-around-top-bottom
-  (activity-instructions "Wrap Around"
+
+(define death-by-fireball
+  (activity-instructions "Add Death by Fireball"
                          '()
                          (list                        
-                          (instruction-basic "Modify the code to make the top edge send you to the bottom and the bottom edge to the top.")
-                          (instruction-basic "It should look like this:")
-                          (instruction-image (text-with-image "      " wrap-around-code-img) 640 140 "")
-                          (instruction-basic "Run the game.")
-                          (instruction-goal "your player wrapping around."))
-                        (video-qr "https://bit.ly/2KstkMa")))
+                          (instruction-basic "Find (define (hero-entity) ...)")
+                          (instruction-basic "Make a new line after the last (on-collide \"###\" die) and type:")
+                          (instruction-image (text-with-image "   " death-by-fireball-code-img) 640 140 "")
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "your hero dying by the fireball"))
+                        (p:scale-to-fit (local-bitmap "tsgd_add_death_fireball.png") 250 250 #:mode 'preserve)))
 
 
 
-(define stop-on-edge-v2-code-img (p:scale (p:code (stop-on-edge 'left 'right)) 4 ))
 
-(define stop-on-edge-improved
-  (activity-instructions "Stop On Edge Improved"
+(define rage-mode-code-img (p:scale (p:code (after-time 200 (do-many (change-color-by 260)
+                                                                     (scale-sprite 1.25)))
+                                            ) 4 ))
+
+(define after-time-rage
+  (activity-instructions "Add a Rage Mode"
                          '()
                          (list                        
-                          (instruction-basic "Erase the left and right edge stoppers and replace it with this improved code:")
-                          (instruction-image (text-with-image "      " stop-on-edge-v2-code-img) 640 140 "")
-                          (instruction-basic "Options are (blank), 'left, 'right, 'top, and 'bottom.")
-                          (instruction-goal "your player stopping on left and right edges."))
-                        (video-qr "https://bit.ly/2ra1U5y")))
+                          (instruction-basic "Find (define (enemy-entity) ...)")
+                          (instruction-basic "Make a new line after (rotation-style ...) and type:")
+                          (instruction-image (text-with-image "   " rage-mode-code-img) 640 140 "")
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "the dragon changing size and color."))
+                        (p:scale-to-fit (local-bitmap "tsgd_rage_mode.png") 250 250 #:mode 'preserve)))
 
-(define wrap-around-v2-code-img (p:scale (p:code (wrap-around 'top-bottom)) 4 ))
 
-(define wrap-around-improved
-  (activity-instructions "Wrap Around Improved"
+
+;   (with-award 2 (load-copy "tsgd_fireball"))
+(define add-fireball-code
+  (activity-instructions "Add the Fireball Code"
+                         '()
+                         (list (instruction-basic "Open TS Magic Loader.")
+                               (instruction-basic (text-with-image "Load: " (p:scale (codify "tsgd_fireball") 1.5)))
+                               (instruction-basic "Copy/Paste the Code BEFORE (define (lost? g e)")
+                               (instruction-goal "your new code in your project"))
+                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 250 250 #:mode 'preserve)))
+
+;   (with-award 1 add-spawner)
+(define spawner-code-img (p:scale (p:code (spawner fireball-entity 20)) 4 ))
+
+(define add-fireball-spawner
+  (activity-instructions "Add a Fireball Spawner"
                          '()
                          (list                        
-                          (instruction-basic "Erase the top and bottom wrap around and replace it with this improved code:")
-                          (instruction-image (text-with-image "      " wrap-around-v2-code-img) 640 140 "")
-                          (instruction-basic "Remove right, top, and bottom edges from (start-game).")
-                          (instruction-goal "your player wrapping around."))
-                        (video-qr "https://bit.ly/2r9nfvh")))
+                          (instruction-basic "Find (define (enemy-entity) ...)")
+                          (instruction-basic "Make a new line after the last (on edge ...) and type:")
+                          (instruction-image (text-with-image "   " spawner-code-img) 640 140 "")
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "the dragon shooting fireballs."))
+                        (p:scale-to-fit (local-bitmap "tsgd_add_spawner.png") 250 250 #:mode 'preserve)))
 
-
-(define random-hue-code-img (p:scale (p:code (change-img-hue (random 360) [IMAGE] )) 4 ))
-
-(define random-hue-background
-  (activity-instructions "Random Hue Background"
-                         '()
-                         (list                        
-                          (instruction-basic "Add this code around the background image: ")
-                          (instruction-image (text-with-image "   " random-hue-code-img) 640 140 "")
-                          (instruction-basic "[IMAGE] = your bg image.")
-                          (instruction-basic "Works best with bright colors.")
-                          (instruction-goal "a random color background"))
-                        (video-qr "https://bit.ly/2I6q7nf")))
-
-(define random-hue-player
-  (activity-instructions "Random Hue Player"
-                         '()
-                         (list                        
-                          (instruction-basic "Add this code around the player image: ")
-                          (instruction-image (text-with-image "   " random-hue-code-img) 640 140 "")
-                          (instruction-basic "[IMAGE] = your sheet/image")
-                          (instruction-basic "Works best with bright colors.")
-                          (instruction-goal "a random color sprite."))
-                        (video-qr "https://bit.ly/2HElPE3")))
-
-
-;day 7 Stop on Edge and Wrap Around
-(define day6-2dgame
+;day 8 Wandering Ai and Projectiles
+(define day7-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 1 add-edges)
-   (with-award 1 stop-on-left-edge)       
-   (with-award 2 more-stop-on-edge)                
-   (with-award 1 wrap-around-top-bottom)
+   (with-award 2 add-enemy-code)     
+   (with-award 1 add-enemy-entity)
+   (with-award 1 death-by-dragon)
+   (with-award 1 add-rotation-style)
    (choose "any"
           (list
-           (with-award 2 stop-on-edge-improved)
-           (with-award 2 wrap-around-improved)
-           (with-award 1 random-hue-background)
-           (with-award 1 random-hue-player) 
+           (with-award 2 after-time-rage)
+           (with-award 2 add-fireball-code)
+           (with-award 1 add-fireball-spawner)
+           (with-award 1 death-by-fireball)
            ))
    ))
 
-(define (quest6)
-  (map shrink (make-picts "red" "Q6-" day6-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+(define (quest7)
+  (map shrink (make-picts "red" "Q7-" day7-2dgame (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))))
 
 
 

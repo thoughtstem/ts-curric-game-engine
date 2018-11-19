@@ -259,13 +259,9 @@
           (list
            ;choose any/all of the following cards
            (with-award 0 (choose-your-own-adventure))
-           ;scale an entity
-           ;New bg
            (with-award 1 (random-hue-background))
            (with-award 1 (random-hue-player))
-
            (with-award 1 (new-custom-background))
-
            (with-award 1 (scale-the-item))
            ))
    ))
