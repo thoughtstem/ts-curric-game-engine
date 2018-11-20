@@ -285,15 +285,15 @@
 (define-syntax-class player-entity-def #:datum-literals (player-entity player-sprite sprite->entity)
   (pattern
    (define (player-entity)
-     (sprite->entity player-sprite
+     (sprite->entity sprite:expr
                      name-kw:keyword name
                      position-kw:keyword position
                      components:keyword first-component rest ...))))
 
-(define-syntax-class enemy-entity-def #:datum-literals (enemy-entity enemy-sprite sprite->entity)
+(define-syntax-class enemy-entity-def #:datum-literals (enemy-entity sprite->entity)
   (pattern
    (define (enemy-entity)
-     (sprite->entity enemy-sprite
+     (sprite->entity sprite:expr
                      name-kw:keyword name
                      position-kw:keyword position
                      components:keyword first-component rest ...))))
@@ -327,12 +327,14 @@
 
 
 (define (most-recently-changed-rkt folder)
-  (parameterize ([current-directory folder])
-    (define paths (directory-list))
+  (and (directory-exists? folder)
+       (< 0 (length (directory-list folder)))
+       (parameterize ([current-directory folder])
+         (define paths (directory-list))
     
-    (define mod-times (map file-or-directory-modify-seconds paths))
-    (build-path folder
-                (path->string (list-ref paths (index-of mod-times (apply max mod-times)))))))
+         (define mod-times (map file-or-directory-modify-seconds paths))
+         (build-path folder
+                     (path->string (list-ref paths (index-of mod-times (apply max mod-times))))))))
 
 (define (most-recently-changed-smw-rkt)
   (most-recently-changed-rkt (build-path (find-system-path 'home-dir) "Desktop" "SAVE_MY_WORK")))
@@ -354,41 +356,42 @@
     (syntax-parse extracted-snippet
       [p:player-entity-def
        #`(define (player-entity)
-           (sprite->entity player-sprite
+           (sprite->entity p.sprite
                            p.name-kw p.name
                            p.position-kw p.position
                            p.components p.first-component p.rest ...
                            #,(datum->syntax #f 'SNIPE #'p.first-component)))]
-      [other #'nope]))
+      [other (error "Error transforming snippet")]))
 
   ;Now we replace the SNIPE datum and generate the images for code+hints
   (typeset-with-targets extracted-snippet-transformed
-                          (list 'SNIPE
-                                (replace-with thing))))
+                        (list 'SNIPE
+                              (replace-with thing))))
 
 (define (add-to-enemy-entity-components thing)
  
   (define extracted-snippet
     (extract-from-file (current-file) ;Here's where we could get the users file??
-                       player-entity-def))
+                       enemy-entity-def))
+
 
 
   ;Now we inject the SNIPE datum in exactly the right spot..
   (define extracted-snippet-transformed
     (syntax-parse extracted-snippet
-      [p:player-entity-def
+      [p:enemy-entity-def
        #`(define (enemy-entity)
-           (sprite->entity enemy-sprite
+           (sprite->entity p.sprite
                            p.name-kw p.name
                            p.position-kw p.position
                            p.components p.first-component p.rest ...
                            #,(datum->syntax #f 'SNIPE #'p.first-component)))]
-      [other #'nope]))
+      [other (error "Error transforming snippet")]))
 
   ;Now we replace the SNIPE datum and generate the images for code+hints
   (typeset-with-targets extracted-snippet-transformed
-                          (list 'SNIPE
-                                (replace-with thing))))
+                        (list 'SNIPE
+                              (replace-with thing))))
 
 
 
@@ -411,7 +414,7 @@
           #,(datum->syntax #f 'SNIPE #'s.background)
           s.after-player ...
           s.background)]
-      [other #'nope]))
+      [other (error "Error transforming snippet")]))
 
   ;Now we replace the SNIPE datum and generate the images for code+hints
   (typeset-with-targets extracted-snippet-transformed
