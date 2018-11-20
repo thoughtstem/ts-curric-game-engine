@@ -46,6 +46,8 @@
 
 (require "./common.rkt")
 
+;=== Code to load ===
+
 (define-racket-file enemy-code
   starter-files
   "tsgd_enemy.rkt")
@@ -55,6 +57,18 @@
   enemy-code
   paste-the-code-above-into-your-file
   between-definitions-explanation)
+
+(define-racket-file fireball-code
+  starter-files
+  "tsgd_fireball.rkt")
+
+(define-launcher-list fireball
+  paste-the-code-below-into-your-file
+  fireball-code
+  paste-the-code-above-into-your-file
+  between-definitions-explanation)
+
+;=== Code hints to load ===
 
 (define (start-game-enemy-code)
  
@@ -71,7 +85,7 @@
 
 
 
-(define (dragon-death-img)
+(define (die-by-dragon-img)
  
   (define-values (main hint-targets)
     (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
@@ -83,8 +97,26 @@
                     (hint (p:text "Put this code here.")))))
 
 
-(define-launcher-function dragon-death
-  dragon-death-img)
+(define-launcher-function die-by-dragon
+  die-by-dragon-img)
+
+
+
+
+(define (die-by-fireball-img)
+ 
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+                      (add-to-player-entity-components
+                       '(on-collide "fireball" die))))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint (p:text "Put this code here.")))))
+
+
+(define-launcher-function die-by-fireball
+  die-by-fireball-img)
 
 
 
@@ -126,6 +158,25 @@
 
 
 
+;error -- same as above
+(define (fireball-spawner-img)
+ 
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+                      (add-to-enemy-entity-components
+                       '(do-every 90 (spawn fireball-entity)))))
+
+  (code+hints main
+              (list (first hint-targets)
+                    (hint (p:text "Put this code here.")))))
+
+
+(define-launcher-function fireball-spawner
+  fireball-spawner-img)
+
+
+
+;=== Cards ===
 
 (define add-enemy-entity
   (activity-instructions "Add the Enemy Entity"
@@ -137,14 +188,14 @@
 
 
 (define death-by-dragon
-  (activity-instructions "Add Death by Dragon"
+  (activity-instructions "Deadly Dragon"
                          '()
                          (list
                           (instruction-basic "Add a component to your (player-entity) that will make your player die if touched by ''dragon''")
                           (instruction-basic "For a hint, look at the code that makes the ''bad item'' deadly or use the launch code.")
                           (instruction-basic "Test the game.")
-                          (instruction-goal "your hero dying by the dragon"))
-                        (launcher-img dragon-death)))
+                          (instruction-goal "your player dying by dragon!"))
+                        (launcher-img die-by-dragon)))
 
 
 ;error-- no enemy in quest 6_complete so it grabs player??
@@ -156,7 +207,7 @@
                           (instruction-basic "Use the launch code to see the new code to add.")
                           (instruction-basic "Test the game.")
                           (instruction-goal "the new rotation style, and explain how it's different than before"))
-                        (launcher-img dragon-rotate))) ; PLACEHOLDER CODE
+                        (launcher-img dragon-rotate)))
 
 
 
@@ -164,19 +215,12 @@
   (activity-instructions "Add Death by Fireball"
                          '()
                          (list                        
-                          (instruction-basic "Find (define (hero-entity) ...)")
-                          (instruction-basic "Make a new line after the last (on-collide \"###\" die) and type:")
-                          (instruction-image (text-with-image "   " death-by-fireball-code-img) 640 140 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "your hero dying by the fireball"))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_death_fireball.png") 250 250 #:mode 'preserve)))
+                          (instruction-basic "Can you add the code to make your player die by fireball without looking at the launch code for hints?")
+                          (instruction-basic "Once you got it, test the game.")
+                          (instruction-goal "your player dying by fireball"))
+                        (launcher-img die-by-fireball)))
 
 
-
-
-(define rage-mode-code-img (p:scale (p:code (after-time 200 (do-many (change-color-by 260)
-                                                                     (scale-sprite 1.25)))
-                                            ) 4 ))
 ;same error as with add-rotation-style
 (define after-time-rage
   (activity-instructions "Add a Rage Mode"
@@ -188,31 +232,18 @@
                           (instruction-goal "the dragon's rage mode! What does it do?"))
                         (launcher-img rage-mode)))
 
-
-
-(define add-fireball-code
-  (activity-instructions "Add the Fireball Code"
-                         '()
-                         (list (instruction-basic "Open TS Magic Loader.")
-                               (instruction-basic (text-with-image "Load: " (p:scale (codify "tsgd_fireball") 1.5)))
-                               (instruction-basic "Copy/Paste the Code BEFORE (define (lost? g e)")
-                               (instruction-goal "your new code in your project"))
-                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 250 250 #:mode 'preserve)))
-
-(define spawner-code-img (p:scale (p:code (spawner fireball-entity 20)) 4 ))
-
+;same error as with add-rotation-style
 (define add-fireball-spawner
-  (activity-instructions "Add a Fireball Spawner"
+  (activity-instructions "Make the Fireball Appear!"
                          '()
                          (list                        
-                          (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Make a new line after the last (on edge ...) and type:")
-                          (instruction-image (text-with-image "   " spawner-code-img) 640 140 "")
+                          (instruction-basic "Add a component to the enemy-entity so it will spawn a fireball-entity every 90 ticks.")
+                          (instruction-basic "Use the launch code to see what this code looks like.")
                           (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon shooting fireballs."))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_spawner.png") 250 250 #:mode 'preserve)))
+                          (instruction-goal "the dragon shooting fireballs!!"))
+                        (launcher-img fireball-spawner)))
 
-;day 8 Wandering Ai and Projectiles
+
 (define (day7-2dgame)
   (list
    (with-award 0 open-file)
@@ -222,8 +253,8 @@
    (with-award 1 add-rotation-style)
    (choose "any"
           (list
-           (with-award 2 after-time-rage)
-           (with-award 2 add-fireball-code)
+           (with-award 3 after-time-rage)
+           (with-award 1 (load-new-code fireball))
            (with-award 1 add-fireball-spawner)
            (with-award 1 death-by-fireball)
            ))
