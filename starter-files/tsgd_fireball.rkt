@@ -1,10 +1,4 @@
 
-(define (rainbow-fireball)
-  (sheet->sprite (sheet->rainbow-tint-sheet (circle 10 "solid" "white"))
-                 #:rows 12
-                 #:columns 1
-                 #:row-number (add1 (random 12))
-                 #:speed 1))
 
 (define fireball-entity
   (sprite->entity (rainbow-fireball)

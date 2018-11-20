@@ -37,12 +37,8 @@
 (require ts-racket)
 (require ts-curric-common)
 
-(require net/sendurl)
-
 (require (prefix-in p: pict/code))
 (require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
 
 (require "./common.rkt")
 
@@ -88,11 +84,10 @@
 
 
 
-;Error -- no enemy in quest6_complete. gets player instead
 (define (dragon-rotate-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(rotation-style 'left-right))))
 
@@ -111,7 +106,7 @@
 (define (rage-mode-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(after-time 200 (do-many (change-color-by 280)
                                                  (scale-sprite 1.25))))))
@@ -235,6 +230,8 @@
   (map shrink (make-picts "red" "Q7-" day7-2dgame s)))
 
 (module+ test
-  (analyze-activities (day7-2dgame) s))
+  #;(analyze-activities (day7-2dgame) s)
+
+  (dragon-rotate-img))
 
 

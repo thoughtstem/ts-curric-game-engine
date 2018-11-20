@@ -19,18 +19,17 @@
   #:at-minimum-student-can-also
   "Make a player's hue random"
   "Make the background's hue random"
-  "Add a new background created in Piskel"
+  "Add a new background created in Piskel to their game"
   "Change the scale of an item"
 
   #:expert-level-students-can
   "Do any of the above in under 5 minutes without hint cards."
-  "You may use an existing file (tsgd_runner_quest5_complete.rkt) as long as it does not have the relevant code already written."
+  "May use an existing file (tsgd_runner_quest5_complete.rkt) as long as it does not have the relevant code already written."
 
   #:master-level-students-can
   "Understand the functions and their documented meanings well enough to be able to do any of the above without hint cards."
-  "Using only the documentation, they can do all of the above in a game file that does not have the relevant code already written."
-  
-  )
+  "Can do all of the above in a game file that does not have the relevant code already written."
+  "May refer to documentation.")
 
 ;DEFINE THE RESOURCES, -- e.g. (launch ...) codes
 
