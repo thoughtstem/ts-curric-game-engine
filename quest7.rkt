@@ -157,7 +157,7 @@
 (define (fireball-spawner-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(do-every 90 (spawn fireball-entity)))))
 
@@ -261,8 +261,6 @@
   (map shrink (make-picts "red" "Q7-" day7-2dgame s)))
 
 (module+ test
-  #;(analyze-activities (day7-2dgame) s)
-
-  (dragon-rotate-img))
+  (analyze-activities (day7-2dgame) s))
 
 
