@@ -250,9 +250,9 @@
    (with-award 1 (load-new-code enemy))  
    (with-award 1 add-enemy-entity)
    (with-award 1 death-by-dragon)
-   (with-award 1 add-rotation-style)
    (choose "any"
           (list
+           (with-award 1 add-rotation-style)
            (with-award 3 after-time-rage)
            (with-award 1 (load-new-code fireball))
            (with-award 1 add-fireball-spawner)
