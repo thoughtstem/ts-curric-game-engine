@@ -37,12 +37,8 @@
 (require ts-racket)
 (require ts-curric-common)
 
-(require net/sendurl)
-
 (require (prefix-in p: pict/code))
 (require (prefix-in p: pict))
-(require racket/runtime-path)
-(define-runtime-path images "images")
 
 (require "./common.rkt")
 
@@ -120,11 +116,10 @@
 
 
 
-;Error -- no enemy in quest6_complete. gets player instead
 (define (dragon-rotate-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(rotation-style 'left-right))))
 
@@ -143,7 +138,7 @@
 (define (rage-mode-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(after-time 200 (do-many (change-color-by 280)
                                                  (scale-sprite 1.25))))))
@@ -162,7 +157,7 @@
 (define (fireball-spawner-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest6_complete.rkt"
+    (try-smw-and-then "tsgd_enemy.rkt"
                       (add-to-enemy-entity-components
                        '(do-every 90 (spawn fireball-entity)))))
 
@@ -250,9 +245,9 @@
    (with-award 1 (load-new-code enemy))  
    (with-award 1 add-enemy-entity)
    (with-award 1 death-by-dragon)
-   (with-award 1 add-rotation-style)
    (choose "any"
           (list
+           (with-award 1 add-rotation-style)
            (with-award 3 after-time-rage)
            (with-award 1 (load-new-code fireball))
            (with-award 1 add-fireball-spawner)

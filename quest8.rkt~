@@ -1,6 +1,6 @@
 #lang racket
 
-(provide quest7)
+(provide quest8)
 
 (require ts-racket)
 (require ts-curric-common)
@@ -15,125 +15,139 @@
 (require "./common.rkt")
 
 
-(define add-enemy-code
-  (activity-instructions "Add the Enemy Code"
-                         '()
-                         (list (instruction-basic "Open TS Magic Loader.")
-                               (instruction-basic (text-with-image "Load: " (p:scale (codify "tsgd_enemy") 1.5)))
-                               (instruction-basic "Copy/Paste the Code BEFORE (define (lost? g e)")
-                               (instruction-goal "your new code in your project"))
-                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 250 250 #:mode 'preserve)))
-
-(define add-enemy-entity
-  (activity-instructions "Add the Enemy Entity"
-                         '()
-                         (list (instruction-basic "Find the (start-game) code and make a new line AFTER (score-entity).")
-                               (instruction-basic (text-with-image "Type: " (p:scale (codify "(enemy-entity)") 1.5)))
-                               (instruction-basic "Test the game.")
-                               (instruction-goal "your enemy in game."))
-                         (p:scale-to-fit (local-bitmap "tsgd_add_enemy_entity.png") 250 250 #:mode 'preserve)))
 
 
-;   (with-award 2 death-by-dragon)
-(define death-by-dragon
-  (activity-instructions "Add Death by Dragon"
-                         '()
-                         (list                        
-                          (instruction-basic "Find (define (hero-entity) ...)")
-                          (instruction-basic "Make a new line after (on-collide \"###\" die).")
-                          (instruction-basic (text-with-image "Type: " (codify "(on-collide \"dragon\" die)")))
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "your hero dying by the dragon"))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_death.png") 250 250 #:mode 'preserve)))
-
-;   (with-award 1 add-rotation-style)
-(define add-rotation-style
-  (activity-instructions "Add Rotation Style"
+;(with-award 2 add-follow-code-enemy)
+(define add-follow-code-enemy
+  (activity-instructions "Make the Dragon Follow You"
                          '()
                          (list                        
                           (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Make a new line after (every-tick (move)) and type:")
-                          (instruction-image (p:scale (codify "(rotation-style 'left-right)") 2) 640 60 "")
+                          (instruction-basic "Disable (do-every ...) by typing a ';' just before it.")
+                          (instruction-basic "Make a new line and type:")
+                          (instruction-image (p:scale (codify "(follow \"hero\")") 2) 640 60 "")
                           (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon pointing left and right"))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_rotation_style.png") 250 250 #:mode 'preserve)))
+                          (instruction-goal "the dragon following you."))
+                        (p:scale-to-fit (local-bitmap "tsgd_dragon_follow.png") 250 250 #:mode 'preserve)))
+             
 
+           
 
-
-(define death-by-fireball
-  (activity-instructions "Add Death by Fireball"
-                         '()
-                         (list                        
-                          (instruction-basic "Find (define (hero-entity) ...)")
-                          (instruction-basic "Make a new line after the last (on-collide \"###\" die) and type:")
-                          (instruction-image (text-with-image "   " death-by-fireball-code-img) 640 140 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "your hero dying by the fireball"))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_death_fireball.png") 250 250 #:mode 'preserve)))
-
-
-
-
-(define rage-mode-code-img (p:scale (p:code (after-time 200 (do-many (change-color-by 260)
-                                                                     (scale-sprite 1.25)))
-                                            ) 4 ))
-
-(define after-time-rage
-  (activity-instructions "Add a Rage Mode"
-                         '()
+;(with-award 1 change-rotation-style)
+(define change-rotation-style
+  (activity-instructions "Make the Dragon Face You"
+                          '()
                          (list                        
                           (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Make a new line after (rotation-style ...) and type:")
-                          (instruction-image (text-with-image "   " rage-mode-code-img) 640 140 "")
+                          (instruction-basic "Change (rotation-style 'left-right) to: ")
+                          (instruction-image (p:scale (codify "(rotation-style 'face-direction)") 2) 640 60 "")
                           (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon changing size and color."))
-                        (p:scale-to-fit (local-bitmap "tsgd_rage_mode.png") 250 250 #:mode 'preserve)))
+                          (instruction-goal "the dragon facing you."))
+                        (p:scale-to-fit (local-bitmap "tsgd_face_direction.png") 250 250 #:mode 'preserve)))
 
 
 
-;   (with-award 2 (load-copy "tsgd_fireball"))
-(define add-fireball-code
-  (activity-instructions "Add the Fireball Code"
-                         '()
-                         (list (instruction-basic "Open TS Magic Loader.")
-                               (instruction-basic (text-with-image "Load: " (p:scale (codify "tsgd_fireball") 1.5)))
-                               (instruction-basic "Copy/Paste the Code BEFORE (define (lost? g e)")
-                               (instruction-goal "your new code in your project"))
-                         (p:scale-to-fit (local-bitmap "tsgd_paste_code_here.png") 250 250 #:mode 'preserve)))
 
-;   (with-award 1 add-spawner)
-(define spawner-code-img (p:scale (p:code (spawner fireball-entity 20)) 4 ))
+;(with-award 1 add-follow-code-collectible)
+(define collectible-follow-code-img (p:scale (p:code (direction 0)
+                                                 (speed 2)
+                                                 (every-tick (move))
+                                                 (follow "hero")) 4 ))
 
-(define add-fireball-spawner
-  (activity-instructions "Add a Fireball Spawner"
+(define add-follow-code-collectible
+  (activity-instructions "Make the Collectible Follow"
                          '()
                          (list                        
-                          (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Make a new line after the last (on edge ...) and type:")
-                          (instruction-image (text-with-image "   " spawner-code-img) 640 140 "")
+                          (instruction-basic "Find the collectible definition.")
+                          (instruction-basic "Add the following components BEFORE (on-collide ...):")
+                          (instruction-image (text-with-image "   " collectible-follow-code-img) 640 140 "")
                           (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon shooting fireballs."))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_spawner.png") 250 250 #:mode 'preserve)))
+                          (instruction-goal "the collectible following you."))
+                        (p:scale-to-fit (local-bitmap "tsgd_collectible_follow.png") 250 250 #:mode 'preserve)))
 
-;day 8 Wandering Ai and Projectiles
-(define day7-2dgame
+
+
+
+;(with-award 1 replace-the-dragon)
+(define replace-the-dragon
+  (activity-instructions "Draw a New Enemy"
+                         '()
+                         (list (instruction-basic "Draw a new enemy sprite and replace the dragon.")
+                               (instruction-basic "Change the ROWS and COLUMNS to match your new sprite.")
+                               (instruction-goal "your new enemy sprite in game."))
+                         (p:scale-to-fit (local-bitmap "tsgd_replace_dragon.png") 250 250 #:mode 'preserve)))
+
+
+
+
+;(with-award 3 (google-form "https://bit.ly/2rFTOkv"))
+(define (review-your-game url)
+  (activity-instructions "Open the Game Review"
+                         '()
+                         (list (instruction-basic "Scan the card to open the Game Review.")
+                               (instruction-basic "Answer the questions about your game.")
+                               (instruction-goal "your Google Form submitted."))
+                         (code-qr url)))
+
+
+;(choose "any"
+; (list
+; (with-award 2 replace-the-fireball)
+(define replace-the-fireball
+  (activity-instructions "Draw a Fireball Sprite"
+                         '()
+                         (list (instruction-basic "Draw a new fireball sprite and export it to SAVE_MY_WORK.")
+                               (instruction-basic "Find (define (rainbow-fireball)) and replace (circle 10 \"solid\" \"white\") with your image.")
+                               (instruction-goal "your new fireball in game."))
+                         (p:scale-to-fit (local-bitmap "tsgd_fireball.png") 250 250 #:mode 'preserve)))
+
+; (with-award 1 add-point-to-fireball)
+(define add-point-to-fireball
+  (activity-instructions "Make the Fireball Point To You"
+                          '()
+                         (list                        
+                          (instruction-basic "Find (define (fireball-entity) ...)")
+                          (instruction-basic "Inside (on-start),change (random-direction 0 360) to: ")
+                          (instruction-image (p:scale (codify "(point-to \"hero\")") 2) 640 60 "")
+                          (instruction-basic "Test the game.")
+                          (instruction-goal "the fireballs shooting at you."))
+                        (p:scale-to-fit (local-bitmap "tsgd_fireball.png") 250 250 #:mode 'preserve)))
+
+
+
+;  (with-award 1 rotation-style-collectible)
+(define more-rotation-style
+  (activity-instructions "More Rotation Style"
+                         '()
+                         (list                        
+                          (instruction-basic "Add (rotation-style ###) to the collectible and/or the fireball.")
+                          (instruction-basic "Use either 'left-right mode or 'face-direction mode.")
+                          (instruction-basic "Earn a 1$ for each rotation-style you add.")
+                          (instruction-goal "more entities with rotation."))
+                        (p:scale-to-fit (local-bitmap "tsgd_add_rotation_fireball.png") 250 250 #:mode 'preserve)))
+
+
+
+;day 9 Follow Ai
+(define day8-2dgame
   (list
    (with-award 0 open-file)
-   (with-award 2 add-enemy-code)     
-   (with-award 1 add-enemy-entity)
-   (with-award 1 death-by-dragon)
-   (with-award 1 add-rotation-style)
+   (with-award 1 add-follow-code-enemy)     
+   (with-award 1 change-rotation-style)
+   (with-award 2 add-follow-code-collectible)
+   (with-award 1 replace-the-dragon)
+   (with-award 2 (review-your-game "https://bit.ly/2rFTOkv"))
    (choose "any"
           (list
-           (with-award 2 after-time-rage)
-           (with-award 2 add-fireball-code)
-           (with-award 1 add-fireball-spawner)
-           (with-award 1 death-by-fireball)
+           (with-award 2 replace-the-fireball)
+           (with-award 1 add-point-to-fireball)
+           (with-award 1 more-rotation-style)
            ))
    ))
 
-(define (quest7)
-  (map shrink (make-picts "red" "Q7-" day7-2dgame (settings (bg (local-bitmap "bg-arcade.png")) MARIO MARIO-BONUS MARIO-BONUS))))
+
+(define (quest8)
+  (map shrink (make-picts "red" "Q8-" day8-2dgame (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))))
 
 
 
