@@ -43,12 +43,15 @@
 
          add-to-player-entity-components
          add-to-enemy-entity-components
+         add-to-score-entity-components
+         add-to-game-manager-components
          add-to-start-game
          change-defined-constant
          find-defined-constant
          item-sprite-definition
          player-sprite-definition
          ground-sprite-definition
+         level-entity-definition
 
          try-smw-and-then
 
@@ -300,6 +303,21 @@
                      position-kw:keyword position
                      components:keyword first-component rest ...))))
 
+(define-syntax-class score-entity-def #:datum-literals (score-entity sprite->entity)
+  (pattern
+   (define (score-entity)
+     (sprite->entity sprite:expr
+                     name-kw:keyword name
+                     position-kw:keyword position
+                     components:keyword first-component rest ...))))
+
+
+(define-syntax-class game-manager-def #:datum-literals (game-manager-entity time-manager-entity)
+  (pattern
+   (define (game-manager-entity)
+     (time-manager-entity components:keyword
+                          first-component rest ...))))
+
 (define-syntax-class player-entity-call #:datum-literals (player-entity)
   (pattern (player-entity)))
 
@@ -324,6 +342,11 @@
 (define-syntax-class ground-sprite-definition #:datum-literals (define ground)
   (pattern
    (define ground
+     expr)))
+
+(define-syntax-class level-entity-definition #:datum-literals (define level2-entity)
+  (pattern
+   (define (level2-entity)
      expr)))
 
 
@@ -396,7 +419,54 @@
                               (replace-with thing))))
 
 
+(define (add-to-game-manager-components thing)
+ 
+  (define extracted-snippet
+    (extract-from-file (current-file) ;Here's where we could get the users file??
+                       game-manager-def))
 
+
+  ;Now we inject the SNIPE datum in exactly the right spot..
+  (define extracted-snippet-transformed
+    (syntax-parse extracted-snippet
+      [p:game-manager-def
+       #`(define (game-manager-entity)
+           (time-manager-entity p.components
+                                p.first-component p.rest ...
+                                #,(datum->syntax #f 'SNIPE #'p.first-component)))]
+      [other (error "Error transforming snippet")]))
+
+  ;Now we replace the SNIPE datum and generate the images for code+hints
+  (typeset-with-targets extracted-snippet-transformed
+                        (list 'SNIPE
+                              (replace-with thing))))
+
+
+
+(define (add-to-score-entity-components thing)
+ 
+  (define extracted-snippet
+    (extract-from-file (current-file) ;Here's where we could get the users file??
+                       score-entity-def))
+
+
+
+  ;Now we inject the SNIPE datum in exactly the right spot..
+  (define extracted-snippet-transformed
+    (syntax-parse extracted-snippet
+      [p:score-entity-def
+       #`(define (score-entity)
+           (sprite->entity p.sprite
+                           p.name-kw p.name
+                           p.position-kw p.position
+                           p.components p.first-component p.rest ...
+                           #,(datum->syntax #f 'SNIPE #'p.first-component)))]
+      [other (error "Error transforming snippet")]))
+
+  ;Now we replace the SNIPE datum and generate the images for code+hints
+  (typeset-with-targets extracted-snippet-transformed
+                        (list 'SNIPE
+                              (replace-with thing))))
 
 
 (define (add-to-start-game thing)

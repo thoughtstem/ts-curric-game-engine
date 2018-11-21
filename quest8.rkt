@@ -48,7 +48,7 @@
 (require "./common.rkt")
 
 
-;=== Code to load ===
+;========== Code to load ==========
 
 
 (define-racket-file game-manager-code
@@ -73,7 +73,7 @@
   paste-the-code-above-into-your-file
   between-definitions-explanation)
 
-;==== Imgs to load ===
+;========= Imgs to load =============
 
 ;old code+hints because not a way to add multiple instructions
 ;with new way at time of creation
@@ -98,10 +98,10 @@
                         (ground-entity (posn (/ WIDTH 2) (/ HEIGHT 2)))
                         bg-entity))) 
 
-  (code+hints all-code
-              (list delete-me (hint "Delete this call"))
+  (code+hints #:settings hints-on-left
+              all-code
               (list add-me (hint "Add this call"))
-              ))
+              (list delete-me (hint "Delete this call"))))
 
 (define-launcher-function start-game:levels
   start-game-levels-code)
@@ -109,7 +109,84 @@
 
 
 
-;=== Cards =====
+(define (add-level2-code)
+  
+   (define prev-code
+    (p:frame #:color "red" (p:code (spawn enemy-entity #:relative? #f))))
+  
+  (define target-full
+    (p:frame #:color "red" (p:code (do-many #,prev-code
+                                            (spawn level2-entity #:relative? #f)))))
+  (define all-code
+    (p:code (define (game-manager-entity)
+              (time-manager-entity #:components
+                                   (on-rule player-dead? (stop-game-counter))
+                                   (on-rule (reached-game-count? 200) #,target-full)
+                                   ))))
+
+  
+  (define almost-finished-code
+    (code+hints all-code
+                (list prev-code (hint "Wrap this existing"
+                                      "code..."))))
+
+
+  (code+hints #:settings hints-on-bottom
+              almost-finished-code
+              (list target-full (hint "...With this new code."
+                                      "Mind the parentheses!!"))
+              ))
+
+(define-launcher-function add-level2
+  add-level2-code)
+
+
+
+(define (level-bonus-code)
+ 
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_runner_quest7_complete.rkt"
+                      (add-to-score-entity-components
+                       (p:code (on-rule (reached-game-count? 200) (do-many (change-counter-by 1000)
+                                                                           (draw-counter "Score: " 32 "yellow")))))))
+  (code+hints main
+              (list (first hint-targets) (hint "New code"))))
+
+(define-launcher-function level-bonus
+  level-bonus-code)
+
+
+
+
+(define (copy-level-entity-code)
+  
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_level2.rkt"
+                      (find-defined-constant  level-entity-definition)))
+
+  (code+hints (p:frame #:color "red" main)
+              (list main (hint "Copy this and paste"
+                               "it right below."))))
+
+(define-launcher-function copy-level-entity
+  copy-level-entity-code)
+
+
+
+(define (add-level3-code)
+  
+  (define-values (main hint-targets)
+    (try-smw-and-then "tsgd_game_manager.rkt"
+                      (add-to-game-manager-components
+                       '(on-rule (reached-game-count? 500) (spawn #:relative? #f level3-entity)))))
+
+  (code+hints main
+              (list (first hint-targets) (hint "New Code"))))
+
+(define-launcher-function add-level3
+  add-level3-code)
+
+;============ Cards =================
 
 (define edit-start-game-levels
   (activity-instructions "Edit Start-Game"
@@ -122,34 +199,71 @@
                         (launcher-img start-game:levels)))
 
 (define edit-game-manager
-  (activity-instructions "Edit Start-Game"
+  (activity-instructions "Add Level 2 to Game"
                          '()
                          (list                        
-                          (instruction-basic "Add a (game-manager-entity) function call to (start-game).")
-                          (instruction-basic "Delete the (enemy-entity) function call.")
+                          (instruction-basic "Edit the game-manager-entity so the level 2 dialog will appear with the enemy-entity.")
+                          (instruction-basic "Use the launch code to see how.")
                           (instruction-basic "Test your game.")
-                          (instruction-goal "enemy-entity only appearing after 200 ticks in your game"))
-                        (launcher-img start-game:levels)))
+                          (instruction-goal "the Level 2 message in game."))
+                        (launcher-img add-level2)))
+
+(define level-point-bonus
+  (activity-instructions "Add a Level Bonus"
+                         '()
+                         (list                        
+                          (instruction-basic "The player should get a point bonus when they reach a new level, right?")
+                          (instruction-basic "Use the launch code to see how to code this.")
+                          (instruction-basic "Then test your game.")
+                          (instruction-goal "The score increase in game!"))
+                        (launcher-img level-bonus)))
+
+(define add-additional-level
+  (activity-instructions "Level 3!"
+                         '()
+                         (list                        
+                          (instruction-basic "Copy and paste the (level2-entity) definition.")
+                          (instruction-basic "Edit the pasted definition to be a (level3-entity)!")
+                          (instruction-basic "HINT: you will have to edit at least 3 things.")
+                          (instruction-goal "your new (level3-entity) code."))
+                        (launcher-img copy-level-entity)))
+
+(define edit-game-manager-level-3
+  (activity-instructions "Add Level 3 to Game"
+                         '()
+                         (list                        
+                          (instruction-basic "Edit the game-manager-entity so the level 3 dialog will appear after 500 ticks.")
+                          (instruction-basic "Use the launch code to see how.")
+                          (instruction-basic "What happens when you reach level 3??")
+                          (instruction-goal "the level 3 message in game. "))
+                        (launcher-img add-level3)))
+
+(define customize-levels
+  (activity-instructions "Customize your Levels"
+                         '()
+                         (list                        
+                          (instruction-basic "Change the titles on your level entities.")
+                          (instruction-basic "Alter the number of ticks for each level.")
+                          (instruction-basic "Keep in mind that you may have to update the number in a few locations to keep things in sync!")
+                          (instruction-goal "Your customizations in game."))
+                        (p:scale (local-bitmap "level-message-change.png") .6)))
+
 
 
 
 (define (day8-2dgame)
   (list
    (with-award 0 open-file)
-   ;load game manager entity -- SHOW new code in file
-   (with-award 1 (load-new-code game-manager))
-   ;edit start game (add GME get rid of enemy-entity) -- SHOW dragon appearing after x ticks
+   (with-award 0 (load-new-code game-manager))
    (with-award 1 edit-start-game-levels)
-   ;load level 2 entity -- SHOW new code in file
    (with-award 1 (load-new-code level2))
-   ;edit GME to spawn level 2 entity -- SHOW in game
-   
+   (with-award 2 edit-game-manager)
    (choose "any"
           (list
-           ;create level 3 entity -- SHOW code
-           ;add to GME -- SHOW in game
-           ;edit level messages -- SHOW in game
-           ;edit level length -- SHOW in code
+           (with-award 2 level-point-bonus)
+           (with-award 2 add-additional-level)
+           (with-award 1 edit-game-manager-level-3)
+           (with-award 1 customize-levels)
            ))
    ))
 
