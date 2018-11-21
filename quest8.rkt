@@ -1,5 +1,38 @@
 #lang racket
 
+;High level goals:
+#;(
+
+   Title: Levels
+
+   Main goal: Add level 2 and 3 to the game
+      *  Add time-manager entity
+      *  Update Start Game
+      *  Update score-entity
+      *  Add level entities
+
+   Stretch goals:
+      *  Change level messages?
+      *  Change level times?
+      *  Add additional level?
+
+   ======
+
+   Quest-complete goals:  Create additional levels
+      * Make creative choices about future levels, add them and all relevant code to the game with less scaffolding.
+      
+   Mastery level 1:
+    * Test your mastery:  Create an additional level in 5 minutes without hint cards.
+    You may use an existing file with exisiting levels.
+
+
+   Mastery level 2:  I understand the functions I'm using, and their documented meanings, well enough to be able
+   to create levels in a game without levels.
+       * Test your mastery:  Using only the documentation, add levels to a game that doesn't already have them.
+      
+   )
+
+
 (provide quest8)
 
 (require ts-racket)
@@ -15,139 +48,116 @@
 (require "./common.rkt")
 
 
+;=== Code to load ===
 
 
-;(with-award 2 add-follow-code-enemy)
-(define add-follow-code-enemy
-  (activity-instructions "Make the Dragon Follow You"
+(define-racket-file game-manager-code
+  starter-files
+  "tsgd_game_manager.rkt")
+
+(define-launcher-list game-manager
+  paste-the-code-below-into-your-file
+  game-manager-code
+  paste-the-code-above-into-your-file
+  between-definitions-explanation)
+
+
+
+(define-racket-file level2-code
+  starter-files
+  "tsgd_level2.rkt")
+
+(define-launcher-list level2
+  paste-the-code-below-into-your-file
+  level2-code
+  paste-the-code-above-into-your-file
+  between-definitions-explanation)
+
+;==== Imgs to load ===
+
+;old code+hints because not a way to add multiple instructions
+;with new way at time of creation
+(define (start-game-levels-code)
+ 
+  (define add-me
+    (p:frame #:color "red" (p:code (game-manager-entity))))
+
+  (define delete-me
+    (x-out (p:code (enemy-entity))))
+
+  (define all-code
+    (p:code (start-game (instructions-entity)
+                        (item-entity item-sprite (posn 200 200))
+                        (bad-item-entity (posn 5 5))
+                        (score-entity)
+                        (game-over-screen)
+                        #,add-me
+                        #,delete-me
+                        (player-entity)
+                        (ground-entity (posn (/ WIDTH 2) (- (/ HEIGHT 2) HEIGHT)))
+                        (ground-entity (posn (/ WIDTH 2) (/ HEIGHT 2)))
+                        bg-entity))) 
+
+  (code+hints all-code
+              (list delete-me (hint "Delete this call"))
+              (list add-me (hint "Add this call"))
+              ))
+
+(define-launcher-function start-game:levels
+  start-game-levels-code)
+
+
+
+
+;=== Cards =====
+
+(define edit-start-game-levels
+  (activity-instructions "Edit Start-Game"
                          '()
                          (list                        
-                          (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Disable (do-every ...) by typing a ';' just before it.")
-                          (instruction-basic "Make a new line and type:")
-                          (instruction-image (p:scale (codify "(follow \"hero\")") 2) 640 60 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon following you."))
-                        (p:scale-to-fit (local-bitmap "tsgd_dragon_follow.png") 250 250 #:mode 'preserve)))
-             
+                          (instruction-basic "Add a (game-manager-entity) function call to (start-game).")
+                          (instruction-basic "Delete the (enemy-entity) function call.")
+                          (instruction-basic "Test your game.")
+                          (instruction-goal "enemy-entity only appearing after 200 ticks in your game"))
+                        (launcher-img start-game:levels)))
 
-           
-
-;(with-award 1 change-rotation-style)
-(define change-rotation-style
-  (activity-instructions "Make the Dragon Face You"
-                          '()
-                         (list                        
-                          (instruction-basic "Find (define (enemy-entity) ...)")
-                          (instruction-basic "Change (rotation-style 'left-right) to: ")
-                          (instruction-image (p:scale (codify "(rotation-style 'face-direction)") 2) 640 60 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "the dragon facing you."))
-                        (p:scale-to-fit (local-bitmap "tsgd_face_direction.png") 250 250 #:mode 'preserve)))
-
-
-
-
-;(with-award 1 add-follow-code-collectible)
-(define collectible-follow-code-img (p:scale (p:code (direction 0)
-                                                 (speed 2)
-                                                 (every-tick (move))
-                                                 (follow "hero")) 4 ))
-
-(define add-follow-code-collectible
-  (activity-instructions "Make the Collectible Follow"
+(define edit-game-manager
+  (activity-instructions "Edit Start-Game"
                          '()
                          (list                        
-                          (instruction-basic "Find the collectible definition.")
-                          (instruction-basic "Add the following components BEFORE (on-collide ...):")
-                          (instruction-image (text-with-image "   " collectible-follow-code-img) 640 140 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "the collectible following you."))
-                        (p:scale-to-fit (local-bitmap "tsgd_collectible_follow.png") 250 250 #:mode 'preserve)))
+                          (instruction-basic "Add a (game-manager-entity) function call to (start-game).")
+                          (instruction-basic "Delete the (enemy-entity) function call.")
+                          (instruction-basic "Test your game.")
+                          (instruction-goal "enemy-entity only appearing after 200 ticks in your game"))
+                        (launcher-img start-game:levels)))
 
 
 
-
-;(with-award 1 replace-the-dragon)
-(define replace-the-dragon
-  (activity-instructions "Draw a New Enemy"
-                         '()
-                         (list (instruction-basic "Draw a new enemy sprite and replace the dragon.")
-                               (instruction-basic "Change the ROWS and COLUMNS to match your new sprite.")
-                               (instruction-goal "your new enemy sprite in game."))
-                         (p:scale-to-fit (local-bitmap "tsgd_replace_dragon.png") 250 250 #:mode 'preserve)))
-
-
-
-
-;(with-award 3 (google-form "https://bit.ly/2rFTOkv"))
-(define (review-your-game url)
-  (activity-instructions "Open the Game Review"
-                         '()
-                         (list (instruction-basic "Scan the card to open the Game Review.")
-                               (instruction-basic "Answer the questions about your game.")
-                               (instruction-goal "your Google Form submitted."))
-                         (code-qr url)))
-
-
-;(choose "any"
-; (list
-; (with-award 2 replace-the-fireball)
-(define replace-the-fireball
-  (activity-instructions "Draw a Fireball Sprite"
-                         '()
-                         (list (instruction-basic "Draw a new fireball sprite and export it to SAVE_MY_WORK.")
-                               (instruction-basic "Find (define (rainbow-fireball)) and replace (circle 10 \"solid\" \"white\") with your image.")
-                               (instruction-goal "your new fireball in game."))
-                         (p:scale-to-fit (local-bitmap "tsgd_fireball.png") 250 250 #:mode 'preserve)))
-
-; (with-award 1 add-point-to-fireball)
-(define add-point-to-fireball
-  (activity-instructions "Make the Fireball Point To You"
-                          '()
-                         (list                        
-                          (instruction-basic "Find (define (fireball-entity) ...)")
-                          (instruction-basic "Inside (on-start),change (random-direction 0 360) to: ")
-                          (instruction-image (p:scale (codify "(point-to \"hero\")") 2) 640 60 "")
-                          (instruction-basic "Test the game.")
-                          (instruction-goal "the fireballs shooting at you."))
-                        (p:scale-to-fit (local-bitmap "tsgd_fireball.png") 250 250 #:mode 'preserve)))
-
-
-
-;  (with-award 1 rotation-style-collectible)
-(define more-rotation-style
-  (activity-instructions "More Rotation Style"
-                         '()
-                         (list                        
-                          (instruction-basic "Add (rotation-style ###) to the collectible and/or the fireball.")
-                          (instruction-basic "Use either 'left-right mode or 'face-direction mode.")
-                          (instruction-basic "Earn a 1$ for each rotation-style you add.")
-                          (instruction-goal "more entities with rotation."))
-                        (p:scale-to-fit (local-bitmap "tsgd_add_rotation_fireball.png") 250 250 #:mode 'preserve)))
-
-
-
-;day 9 Follow Ai
-(define day8-2dgame
+(define (day8-2dgame)
   (list
    (with-award 0 open-file)
-   (with-award 1 add-follow-code-enemy)     
-   (with-award 1 change-rotation-style)
-   (with-award 2 add-follow-code-collectible)
-   (with-award 1 replace-the-dragon)
-   (with-award 2 (review-your-game "https://bit.ly/2rFTOkv"))
+   ;load game manager entity -- SHOW new code in file
+   (with-award 1 (load-new-code game-manager))
+   ;edit start game (add GME get rid of enemy-entity) -- SHOW dragon appearing after x ticks
+   (with-award 1 edit-start-game-levels)
+   ;load level 2 entity -- SHOW new code in file
+   (with-award 1 (load-new-code level2))
+   ;edit GME to spawn level 2 entity -- SHOW in game
+   
    (choose "any"
           (list
-           (with-award 2 replace-the-fireball)
-           (with-award 1 add-point-to-fireball)
-           (with-award 1 more-rotation-style)
+           ;create level 3 entity -- SHOW code
+           ;add to GME -- SHOW in game
+           ;edit level messages -- SHOW in game
+           ;edit level length -- SHOW in code
            ))
    ))
 
+(define s (settings (bg (local-bitmap "bg-arcade.png")) (PIKACHU) (PIKACHU-BONUS) (PIKACHU-BONUS)))
 
 (define (quest8)
-  (map shrink (make-picts "red" "Q8-" day8-2dgame (settings (bg (local-bitmap "bg-arcade.png")) (MARIO) (MARIO-BONUS) (MARIO-BONUS)))))
+  (map shrink (make-picts "red" "Q8-" day8-2dgame s)))
 
-
+(module+ test
+  (analyze-activities (day8-2dgame) s))
 

@@ -34,6 +34,8 @@
          LINK-BONUS
          SAMUS
          SAMUS-BONUS
+         PIKACHU
+         PIKACHU-BONUS
 
          this-curriculum
          images
