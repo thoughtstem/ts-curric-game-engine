@@ -2,9 +2,7 @@
 
 (provide load-new-code
          
-         open-file-video
-
-         death-by-fireball-code-img)
+         open-file-video)
 
 
 (provide  draw-sprite
@@ -134,6 +132,38 @@
 (define-starter-code runner4-starter
   starter-files
   "tsgd_runner_4.rkt")
+
+(define-starter-code q1-complete
+  starter-files
+  "tsgd_runner_1.rkt")
+
+(define-starter-code q2-complete
+  starter-files
+  "tsgd_runner_1.rkt")
+
+(define-starter-code q3-complete
+  starter-files
+  "tsgd_runner_1.rkt")
+
+(define-starter-code q4-complete
+  starter-files
+  "tsgd_runner_quest4_complete.rkt")
+
+(define-starter-code q5-complete
+  starter-files
+  "tsgd_runner_quest5_complete.rkt")
+
+(define-starter-code q6-complete
+  starter-files
+  "tsgd_runner_quest6_complete.rkt")
+
+(define-starter-code q7-complete
+  starter-files
+  "tsgd_runner_quest7_complete.rkt")
+
+(define-starter-code q8-complete
+  starter-files
+  "tsgd_runner_quest8_complete.rkt")
 
 
 (define open-file
@@ -271,13 +301,6 @@
                                (instruction-basic "Make sure the file name ends in '.png'")
                                (instruction-goal "your exported file."))
                          (scale-to-fit (local-bitmap "piskel_export.png") 400 350 #:mode 'preserve)))
-
-
-
-;; COMPLETE DAYS
-
-
-(define death-by-fireball-code-img (scale (code (on-collide "fireball" die)) 4 ))
 
 
 

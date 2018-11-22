@@ -178,7 +178,7 @@
   (define-values (main hint-targets)
     (try-smw-and-then "tsgd_game_manager.rkt"
                       (add-to-game-manager-components
-                       '(on-rule (reached-game-count? 500) (spawn #:relative? #f level3-entity)))))
+                       '(on-rule (reached-game-count? 400) (spawn #:relative? #f level3-entity)))))
 
   (code+hints main
               (list (first hint-targets) (hint "New Code"))))
@@ -232,7 +232,7 @@
   (activity-instructions "Add Level 3 to Game"
                          '()
                          (list                        
-                          (instruction-basic "Edit the game-manager-entity so the level 3 dialog will appear after 500 ticks.")
+                          (instruction-basic "Edit the game-manager-entity so the level 3 dialog will appear after 400 ticks.")
                           (instruction-basic "Use the launch code to see how.")
                           (instruction-basic "What happens when you reach level 3??")
                           (instruction-goal "the level 3 message in game. "))

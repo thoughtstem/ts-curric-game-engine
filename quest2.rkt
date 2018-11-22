@@ -61,7 +61,7 @@
       (item-entity item-sprite (posn 250 100))))
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (add-to-start-game new-code)))
 
   (code+hints main
@@ -83,7 +83,7 @@
       (item-entity new-item-sprite (posn 250 100)))))
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (add-to-start-game new-code)))
   
   (code+hints main
@@ -100,11 +100,11 @@
 
 (define (copy-item-definition-code)
   (define-values (existing-def existing-def-hints)
-    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (find-defined-constant  item-sprite-definition)))
   
   (define-values (copied-def copied-def-hints)
-    (try-smw-and-then "tsgd_runner_quest1_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (change-defined-constant  item-sprite-definition
                                                 'item-sprite 'new-item-sprite)))
 

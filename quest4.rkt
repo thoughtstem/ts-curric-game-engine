@@ -54,7 +54,7 @@
 (define (collide-death-img)
  
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest3_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (add-to-player-entity-components
                        '(on-collide "bad item" die))))
 
@@ -74,7 +74,7 @@
 (define (bad-item-start-game-image)
 
   (define-values (main hint-targets)
-    (try-smw-and-then "tsgd_runner_quest3_complete.rkt"
+    (try-smw-and-then "tsgd_runner_1.rkt"
                       (add-to-start-game
                        `(bad-item-entity (posn 0 0)))))
 
