@@ -270,7 +270,7 @@
 (define s (settings (bg (local-bitmap "bg-arcade.png")) (PIKACHU) (PIKACHU-BONUS) (PIKACHU-BONUS)))
 
 (define (quest8)
-  (map shrink (make-picts "red" "Q8-" day8-2dgame s)))
+  (map shrink (make-picts "red" "Q8-" (day8-2dgame) s)))
 
 (module+ test
   (analyze-activities (day8-2dgame) s))

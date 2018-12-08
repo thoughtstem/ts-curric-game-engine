@@ -258,7 +258,7 @@
 (define s (settings (bg (local-bitmap "bg-arcade.png")) (SAMUS) (SAMUS-BONUS) (SAMUS-BONUS)))
 
 (define (quest7)
-  (map shrink (make-picts "red" "Q7-" day7-2dgame s)))
+  (map shrink (make-picts "red" "Q7-" (day7-2dgame) s)))
 
 (module+ test
   (analyze-activities (day7-2dgame) s))
